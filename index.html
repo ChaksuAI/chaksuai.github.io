@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChákṣuAI - Last-Mile Vision Care</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="ChákṣuAI is an open-source, AI-powered assistant for ophthalmologists to diagnose and manage eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+    <meta name="keywords" content="AI, ophthalmology, vision care, diabetic retinopathy, glaucoma, AMD, deep learning, medical imaging, retinal analysis, open-source">
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/chaksuai.png" type="image/png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chaksu.ai/"> <!-- Replace with your actual URL -->
+    <meta property="og:title" content="ChákṣuAI - AI-Powered Assistant for Ophthalmology">
+    <meta property="og:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630"> <!-- Replace with a link to your social share image -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://chaksu.ai/"> <!-- Replace with your actual URL -->
+    <meta property="twitter:title" content="ChákṣuAI - AI-Powered Assistant for Ophthalmology">
+    <meta property="twitter:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+    <meta property="twitter:image" content="https://via.placeholder.com/1200x630"> <!-- Replace with a link to your social share image -->
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo"><img src="assets/images/chaksuai.png" alt="ChákṣuAI Logo"> <span>ChákṣuAI</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#how-it-works">Overview</a></li>
+                    <li><a href="#news">News</a></li>
+                    <li><a href="#team">Our Team</a></li>
+                </ul>
+                <a href="https://chaksuai.ee.iisc.ac.in/chaksuai" target="_blank" class="button button-primary">Try ChákṣuAI</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Last-Mile Vision Care,<br>Powered by AI.</h2>
+                    <p>ChákṣuAI is an open-source platform designed to help ophthalmologists diagnose and manage eye diseases. Using deep learning, it analyzes retinal images to provide accurate classifications, segmentations, and risk predictions.</p>
+                </div>
+                <div class="hero-visual">
+                    <div class="video-container">
+                        <video id="hero-video" autoplay loop muted playsinline>
+                            <source src="assets/videos/demo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="video-controls">
+                            <button id="seek-backward-btn" aria-label="Seek Backward 10 seconds">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" fill="white"/></svg>
+                            </button>
+                            <button id="play-pause-btn" aria-label="Pause">
+                                <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </button>
+                            <button id="seek-forward-btn" aria-label="Seek Forward 10 seconds">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" fill="white"/></svg>
+                            </button>
+                            <button id="mute-btn" aria-label="Unmute">
+                                <svg class="mute-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+                                <svg class="unmute-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.28 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section-light">
+            <div class="container">
+                <h3 class="section-title">How It Works</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>1. Upload Retinal Images</h4>
+                        <p>Securely upload patient data, including fundus photographs and Optical Coherence Tomography (OCT) scans.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>2. AI-Powered Analysis</h4>
+                        <p>Our deep learning models automatically classify diseases, detect abnormalities, and perform detailed segmentations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>3. Receive Actionable Insights</h4>
+                        <p>Get clear, visual results and data-driven reports to support your diagnostic workflow and treatment planning.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section-light">
+            <div class="container">
+                <h3 class="section-title">Core Features</h3>
+                <ul class="features-list">
+                    <li><strong>Disease Classification:</strong> Automatically identify conditions like diabetic retinopathy, glaucoma, and AMD from images.</li>
+                    <li><strong>Abnormality Detection:</strong> Pinpoint key biomarkers such as microaneurysms, haemorrhages, and exudates.</li>
+                    <li><strong>Retinal Segmentation:</strong> Precisely segment anatomical structures like the optic disc and cup for detailed analysis.</li>
+                    <li><strong>OCT Fluid Analysis:</strong> Perform volumetric analysis of fluid in Optical Coherence Tomography (OCT) images.</li>
+                    <li><strong>Risk Prediction:</strong> Assess the risk of disease progression to aid in proactive patient management.</li>
+                    <li><strong>Open-Source & Collaborative:</strong> A community-driven platform that is transparent, extensible, and free to use.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="news">
+            <div class="container">
+                <h3 class="section-title">Latest News & Updates</h3>
+                <div class="news-grid">
+                    <article class="news-card">
+                        <p class="news-category">Product Update</p>
+                        <h4>Boom Boom</h4>
+                        <p class="news-date">October 26, 2024</p>
+                        <a href="#" class="news-link">Read More &rarr;</a>
+                    </article>
+                    <article class="news-card">
+                        <p class="news-category">Company News</p>
+                        <h4>Boom Boom</h4>
+                        <p class="news-date">October 15, 2024</p>
+                        <a href="#" class="news-link">Read More &rarr;</a>
+                    </article>
+                    <article class="news-card">
+                        <p class="news-category">Case Study</p>
+                        <h4>Boom Boom</h4>
+                        <p class="news-date">September 28, 2024</p>
+                        <a href="#" class="news-link">Read More &rarr;</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="we-were-there" class="section-light">
+            <div class="container">
+                <h3 class="section-title">We were there at</h3>
+                <div class="carousel-container">
+                    <div class="carousel-track">
+                        <!-- Slides are duplicated for a seamless loop -->
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel1.png" alt="Event Image 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel2.png" alt="Event Image 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel3.png" alt="Event Image 3">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel4.png" alt="Event Image 4">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel5.png" alt="Event Image 5">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel1.png" alt="Event Image 1">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel2.png" alt="Event Image 2">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel3.png" alt="Event Image 3">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel4.png" alt="Event Image 4">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="assets/images/carousel/carousel5.png" alt="Event Image 5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team">
+            <div class="container">
+                <h3 class="section-title">Meet Our Team</h3>
+                <div class="team-grid">
+                    <div class="team-member-card">
+                        <img src="assets/images/css.jpg" alt="Team Member Chandra Sekhar Seelamantula">
+                        <h4>Prof. Chandra Sekhar Seelamantula</h4>
+                        <p class="team-member-title">Project Supervisor</p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="assets/images/sasi.jpg" alt="Team Member Sasidhar Alavala">
+                        <h4>Sasidhar Alavala</h4>
+                        <p class="team-member-title">Research Assistant</p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="assets/images/pramath.jpg" alt="Team Member Pramath Haritz">
+                        <h4>Pramath Haritz</h4>
+                        <p class="team-member-title">Research Intern</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 ChákṣuAI. All rights reserved.</p>
+                <nav class="footer-nav">
+                    <ul>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
