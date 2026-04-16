@@ -37,12 +37,17 @@
         <div class="container">
             <a href="#" class="logo"><img src="assets/images/chaksuai.png" alt="ChákṣuAI Logo"> <span>ChákṣuAI</span></a>
             <nav>
-                <ul>
-                    <li><a href="#how-it-works">Overview</a></li>
-                    <li><a href="#news">News</a></li>
-                    <li><a href="#team">Our Team</a></li>
-                </ul>
-                <a href="https://chaksuai.ee.iisc.ac.in" target="_blank" class="button button-primary">Try ChákṣuAI</a>
+                <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="nav-inner">
+                    <ul class="nav-links">
+                        <li><a href="#how-it-works">Overview</a></li>
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                    </ul>
+                    <a href="https://chaksuai.ee.iisc.ac.in" target="_blank" class="button button-primary">Try ChákṣuAI</a>
+                </div>
             </nav>
         </div>
     </header>
@@ -51,7 +56,7 @@
         <section id="hero">
             <div class="container">
                 <div class="hero-content">
-                    <h2>Last-Mile Vision Care,<br>Powered by AI.</h2>
+                    <h2>Last-Mile Vision Care,<br><em>Powered by AI.</em></h2>
                     <p>ChákṣuAI is an AI-powered diagnostic platform designed to prevent preventable blindness across India by enabling frontline healthcare workers to deliver comprehensive eye care. Using India-specific AI models trained on the Chákṣu dataset, it provides accurate disease classification, abnormality detection, and retinal segmentation.</p>
                 </div>
                 <div class="hero-visual">
@@ -86,18 +91,30 @@
                 <h3 class="section-title">How It Works</h3>
                 <div class="features-grid">
                     <div class="feature-card">
+                        <div class="feature-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                        </div>
                         <h4>1. Capture Retinal Images</h4>
                         <p>Use smartphone-based fundus imaging attachments or standard equipment to capture high-quality retinal images suitable for AI analysis.</p>
                     </div>
                     <div class="feature-card">
+                        <div class="feature-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
+                        </div>
                         <h4>2. AI-Powered Diagnosis</h4>
                         <p>Our India-specific AI models, trained on the Chákṣu dataset, analyze images using advanced CNNs and Transformers for accurate disease detection and classification.</p>
                     </div>
                     <div class="feature-card">
+                        <div class="feature-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                        </div>
                         <h4>3. Comprehensive Reports</h4>
                         <p>Receive detailed diagnostic reports with explainable AI visualizations, helping healthcare workers make informed decisions and referrals.</p>
                     </div>
                     <div class="feature-card">
+                        <div class="feature-card-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
                         <h4>4. Expert Consultation</h4>
                         <p>Access our ophthalmology-specific chatbot powered by fine-tuned LLM with RAG to assist in primary screening and treatment planning.</p>
                     </div>
@@ -279,14 +296,6 @@
         <div class="container">
             <div class="footer-content">
                 <p>&copy; 2025 ChákṣuAI. All rights reserved.</p>
-                <nav class="footer-nav">
-                    <ul>
-                        <li><a href="#how-it-works">Overview</a></li>
-                        <li><a href="#news">News</a></li>
-                        <li><a href="#team">Our Team</a></li>
-                    </ul>
-                    <a href="https://chaksuai.ee.iisc.ac.in" target="_blank" class="button button-primary">Try ChákṣuAI</a>
-                </nav>
             </div>
         </div>
     </footer>

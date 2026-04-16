@@ -12,6 +12,66 @@ window.addEventListener('scroll', function() {
 
 // --- Page Load Scripts ---
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Hamburger Menu ---
+    const hamburger = document.querySelector('.hamburger');
+    const navInner  = document.querySelector('.nav-inner');
+    if (hamburger && navInner) {
+        hamburger.addEventListener('click', () => {
+            const open = hamburger.classList.toggle('open');
+            navInner.classList.toggle('open', open);
+            hamburger.setAttribute('aria-expanded', open);
+        });
+        navInner.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                navInner.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
+    // --- Skeleton Loading ---
+    function skeletonForImg(img, skeletonClass) {
+        if (img.complete && img.naturalWidth > 0) return;
+        img.style.opacity = '0';
+        img.style.transition = 'opacity 0.4s ease';
+        const skeleton = document.createElement('div');
+        skeleton.className = 'skeleton-box ' + skeletonClass;
+        img.parentNode.insertBefore(skeleton, img);
+        const reveal = () => { skeleton.remove(); img.style.opacity = '1'; };
+        img.addEventListener('load',  reveal, { once: true });
+        img.addEventListener('error', reveal, { once: true });
+    }
+
+    // Team member photos
+    document.querySelectorAll('.team-member-card img').forEach(img => {
+        skeletonForImg(img, 'skeleton-team-img');
+    });
+
+    // Carousel images
+    document.querySelectorAll('.carousel-slide img').forEach(img => {
+        skeletonForImg(img, 'skeleton-carousel-img');
+    });
+
+    // Hero video
+    const heroVideo = document.getElementById('hero-video');
+    if (heroVideo) {
+        const videoSkeleton = document.createElement('div');
+        videoSkeleton.className = 'skeleton-box skeleton-video-box';
+        heroVideo.style.opacity = '0';
+        heroVideo.style.transition = 'opacity 0.4s ease';
+        heroVideo.parentNode.insertBefore(videoSkeleton, heroVideo);
+        if (heroVideo.readyState >= 2) {
+            videoSkeleton.remove();
+            heroVideo.style.opacity = '1';
+        } else {
+            const revealVideo = () => { videoSkeleton.remove(); heroVideo.style.opacity = '1'; };
+            heroVideo.addEventListener('loadeddata', revealVideo, { once: true });
+            heroVideo.addEventListener('error',      revealVideo, { once: true });
+        }
+    }
+
     // --- Hero Video Controls ---
     const videoContainer = document.querySelector('.video-container');
     if (videoContainer) {
