@@ -16,6 +16,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Hamburger Menu ---
     const hamburger = document.querySelector('.hamburger');
     const navInner  = document.querySelector('.nav-inner');
+    const headerEl  = document.querySelector('header');
+
+    function pinDropdown() {
+        if (navInner && headerEl) {
+            navInner.style.top = headerEl.offsetHeight + 'px';
+        }
+    }
+    pinDropdown();
+    window.addEventListener('resize', pinDropdown);
+
     if (hamburger && navInner) {
         hamburger.addEventListener('click', () => {
             const open = hamburger.classList.toggle('open');

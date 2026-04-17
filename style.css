@@ -628,23 +628,38 @@ footer {
 @media (max-width: 768px) {
   .hamburger { display: flex; }
 
+  /* Dropdown is fixed to the viewport so it can never overflow the screen.
+     top is set dynamically in JS to sit flush below the header.
+     Slide-in uses translateY so layout is never disturbed.              */
   .nav-inner {
-    display: none;
-    position: absolute;
-    inset: 100% 0 auto;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    padding: var(--s-4);
+    display: flex;               /* always rendered, controlled by transform */
     flex-direction: column;
     align-items: flex-start;
     gap: var(--s-3);
+    position: fixed;
+    top: 0;                      /* overridden by JS on load + resize */
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: var(--s-4);
     box-shadow: var(--shadow-md);
+    z-index: 200;
+    /* hidden state */
+    transform: translateY(-105%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity   0.28s ease;
   }
-  .nav-inner.open { display: flex; }
+  .nav-inner.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
 
   .nav-links { flex-direction: column; gap: var(--s-3); width: 100%; }
   nav a { font-size: var(--t-base); }
-  nav { position: relative; }
 
   #hero .container { flex-direction: column; }
   .hero-content > p { max-width: 100%; }
