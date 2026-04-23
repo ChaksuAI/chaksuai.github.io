@@ -1,315 +1,682 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChákṣuAI - Last-Mile Vision Care</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChākṣuAI — Last-Mile Vision Care</title>
 
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="ChákṣuAI is an open-source, AI-powered assistant for ophthalmologists to diagnose and manage eye diseases like diabetic retinopathy, glaucoma, and AMD.">
-    <meta name="keywords" content="AI, ophthalmology, vision care, diabetic retinopathy, glaucoma, AMD, deep learning, medical imaging, retinal analysis, open-source">
+<!-- SEO -->
+<meta name="description" content="ChākṣuAI is an open-source, AI-powered assistant for ophthalmologists to diagnose and manage eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+<meta name="keywords" content="AI, ophthalmology, vision care, diabetic retinopathy, glaucoma, AMD, deep learning, medical imaging, retinal analysis, open-source">
+<link rel="icon" href="assets/images/chaksuai.png" type="image/png">
 
-    <!-- Favicon -->
-    <link rel="icon" href="assets/images/chaksuai.png" type="image/png">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://chaksu.ai/">
+<meta property="og:title" content="ChākṣuAI — AI-Powered Assistant for Ophthalmology">
+<meta property="og:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+<meta property="og:image" content="assets/images/chaksuai.png">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://chaksu.ai/"> <!-- Replace with your actual URL -->
-    <meta property="og:title" content="ChákṣuAI - AI-Powered Assistant for Ophthalmology">
-    <meta property="og:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630"> <!-- Replace with a link to your social share image -->
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://chaksu.ai/">
+<meta property="twitter:title" content="ChākṣuAI — AI-Powered Assistant for Ophthalmology">
+<meta property="twitter:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
+<meta property="twitter:image" content="assets/images/chaksuai.png">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://chaksu.ai/"> <!-- Replace with your actual URL -->
-    <meta property="twitter:title" content="ChákṣuAI - AI-Powered Assistant for Ophthalmology">
-    <meta property="twitter:description" content="An open-source platform using deep learning to enhance diagnostic accuracy for eye diseases like diabetic retinopathy, glaucoma, and AMD.">
-    <meta property="twitter:image" content="https://via.placeholder.com/1200x630"> <!-- Replace with a link to your social share image -->
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500&display=swap" rel="stylesheet">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sa:oklch(72% 0.19 52);
+  --sa-hover:oklch(66% 0.19 52);
+  --sa-dim:oklch(72% 0.19 52 / 0.12);
+  --sa-light:oklch(93% 0.07 52);
+  --gr:oklch(36% 0.14 155);
+  --gr-light:oklch(93% 0.06 155);
+  --bg:oklch(98.5% 0.007 80);
+  --bg-warm:oklch(96.5% 0.012 75);
+  --bg-dark:oklch(15% 0.025 255);
+  --tx:oklch(18% 0.015 255);
+  --tx2:oklch(50% 0.018 255);
+  --tx3:oklch(72% 0.012 255);
+  --bd:oklch(88% 0.010 75);
+  --bd2:oklch(80% 0.015 75);
+  --sh:0 4px 20px oklch(18% 0.015 255 / 0.07);
+  --sh2:0 12px 48px oklch(18% 0.015 255 / 0.11);
+  --r:6px;
+  --rl:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg-warm)}
+::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+a{color:inherit}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,64px);background:oklch(98.5% 0.007 80 / 0.93);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bd);transition:box-shadow .3s}
+.nav.s{box-shadow:var(--sh)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{width:34px;height:34px;object-fit:contain}
+.nav-wm{font-family:'Cormorant Garant',serif;font-weight:600;font-size:21px;color:var(--tx);letter-spacing:-.02em}
+.nav-wm span{color:var(--sa)}
+.nav-links{display:flex;align-items:center;gap:clamp(16px,3vw,36px)}
+.nav-a{font-size:13.5px;color:var(--tx2);text-decoration:none;transition:color .2s;background:none;border:none;cursor:pointer;font-family:inherit}
+.nav-a:hover{color:var(--tx)}
+.nav-cta{font-size:13px;font-weight:500;color:#fff;background:var(--sa);padding:9px 22px;border-radius:var(--r);text-decoration:none;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 14px oklch(72% 0.19 52 / 0.3);display:inline-flex;align-items:center;gap:6px}
+.nav-cta:hover{background:var(--sa-hover);transform:translateY(-1px);box-shadow:0 6px 18px oklch(72% 0.19 52 / 0.4)}
+.nav-menu-btn{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+.nav-menu-btn span{display:block;width:22px;height:2px;background:var(--tx);border-radius:2px;transition:transform .3s, opacity .3s}
+.nav-menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-menu-btn.open span:nth-child(2){opacity:0}
+.nav-menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bd);flex-direction:column;padding:20px clamp(20px,5vw,64px);gap:16px;z-index:199;box-shadow:var(--sh)}
+.nav-mobile.open{display:flex}
+.nav-mobile .nav-a{font-size:15px;padding:8px 0;border-bottom:1px solid var(--bd);text-align:left}
+.nav-mobile .nav-cta{align-self:flex-start;margin-top:4px}
+
+/* ── SANSKRIT ── */
+.sanskrit-band{padding:clamp(80px,12vh,120px) clamp(20px,5vw,64px) clamp(40px,6vh,60px);text-align:center;background:linear-gradient(to bottom,oklch(97% 0.015 75),var(--bg));position:relative;overflow:hidden}
+.sanskrit-band::before{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:640px;height:640px;background:radial-gradient(circle,oklch(72% 0.19 52 / 0.10),transparent 60%);pointer-events:none}
+.devanagari{font-family:'Noto Serif Devanagari',serif;font-weight:400;font-size:clamp(22px,3.5vw,42px);color:var(--tx);letter-spacing:.04em;line-height:1.5;opacity:0;animation:sanskritReveal 2s cubic-bezier(.16,1,.3,1) .3s forwards;position:relative}
+.transliteration{font-family:'Cormorant Garant',serif;font-style:italic;font-size:clamp(13px,1.8vw,19px);color:var(--tx2);margin-top:8px;opacity:0;animation:fadeUp .9s ease 1.6s forwards;position:relative}
+@keyframes sanskritReveal{
+  0%{opacity:0;letter-spacing:.18em;text-shadow:0 0 40px oklch(72% 0.19 52 / 0.8)}
+  40%{opacity:1;text-shadow:0 0 20px oklch(72% 0.19 52 / 0.5)}
+  100%{opacity:1;letter-spacing:.04em;text-shadow:none}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ── HERO ── */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,64px);align-items:center;padding:clamp(20px,4vh,40px) clamp(20px,5vw,64px) clamp(60px,10vh,100px);max-width:1200px;margin:0 auto}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--sa);margin-bottom:16px}
+.hero-h1{font-family:'Cormorant Garant',serif;font-weight:400;font-size:clamp(32px,4.5vw,62px);line-height:1.1;letter-spacing:-.02em;margin-bottom:20px}
+.hero-h1 em{font-style:italic;color:var(--sa)}
+.hero-p{font-size:clamp(14px,1.5vw,16px);font-weight:300;color:var(--tx2);line-height:1.75;max-width:480px;margin-bottom:32px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-p{font-size:14px;font-weight:500;color:#fff;background:var(--sa);border:none;padding:12px 28px;border-radius:var(--r);cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 16px oklch(72% 0.19 52 / 0.35);text-decoration:none;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
+.btn-p:hover{background:var(--sa-hover);transform:translateY(-2px);box-shadow:0 6px 20px oklch(72% 0.19 52 / 0.45)}
+.btn-s{font-size:14px;font-weight:400;color:var(--tx);background:transparent;border:1px solid var(--bd2);padding:12px 28px;border-radius:var(--r);cursor:pointer;transition:.2s;text-decoration:none;display:inline-block;font-family:inherit}
+.btn-s:hover{border-color:var(--tx2);background:var(--bg-warm);transform:translateY(-1px)}
+
+/* ── VIDEO ── */
+.video-wrap{border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh2);border:1px solid var(--bd);background:#000;aspect-ratio:16/9;position:relative}
+.video-wrap video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.video-thumb{position:absolute;inset:0;background:linear-gradient(135deg,oklch(22% 0.03 255),oklch(14% 0.025 255));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;cursor:pointer;z-index:2;transition:opacity .25s ease}
+.video-thumb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 50% 50%,oklch(72% 0.19 52 / 0.08),transparent)}
+.video-thumb.hidden{opacity:0;pointer-events:none}
+.play-btn{width:64px;height:64px;background:oklch(72% 0.19 52 / 0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .2s, background .2s;backdrop-filter:blur(4px);position:relative;z-index:1}
+.video-thumb:hover .play-btn{transform:scale(1.08);background:var(--sa)}
+.play-icon-triangle{width:0;height:0;border-style:solid;border-width:10px 0 10px 20px;border-color:transparent transparent transparent #fff;margin-left:4px}
+.video-label{font-size:12px;color:oklch(70% 0.015 255);letter-spacing:.06em;text-transform:uppercase;position:relative;z-index:1}
+
+.video-controls{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,oklch(8% 0.02 255 / 0.95));padding:20px 14px 12px;display:flex;flex-direction:column;gap:8px;z-index:3;opacity:0;transition:opacity .25s ease}
+.video-wrap:hover .video-controls,.video-controls.visible{opacity:1}
+.video-seek{width:100%;height:3px;background:oklch(40% 0.015 255);border-radius:2px;cursor:pointer;appearance:none;-webkit-appearance:none;outline:none}
+.video-seek::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:12px;height:12px;background:var(--sa);border-radius:50%;cursor:pointer;border:none}
+.video-seek::-moz-range-thumb{width:12px;height:12px;background:var(--sa);border-radius:50%;cursor:pointer;border:none}
+.video-ctrl-row{display:flex;align-items:center;gap:6px}
+.vc-btn{background:none;border:none;color:#fff;cursor:pointer;opacity:.85;transition:opacity .2s, transform .2s;padding:6px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center}
+.vc-btn:hover{opacity:1;background:oklch(100% 0 0 / 0.08)}
+.vc-btn svg{display:block}
+.vc-time{font-size:11px;color:oklch(78% 0.01 255);flex:1;padding-left:4px;font-variant-numeric:tabular-nums}
+
+/* ── SECTIONS ── */
+.sec{padding:clamp(60px,8vh,100px) clamp(20px,5vw,64px)}
+.sec-alt{background:var(--bg-warm)}
+.sec-hd{text-align:center;margin-bottom:clamp(40px,5vh,60px);max-width:720px;margin-left:auto;margin-right:auto}
+.sec-lbl{font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--sa);margin-bottom:12px;display:block}
+.sec-title{font-family:'Cormorant Garant',serif;font-weight:400;font-size:clamp(26px,3.5vw,44px);letter-spacing:-.02em;line-height:1.15;margin-bottom:12px}
+.sec-sub{font-size:15px;font-weight:300;color:var(--tx2);max-width:500px;margin:0 auto;line-height:1.7}
+
+/* ── HOW IT WORKS ── */
+.hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:0 auto}
+.hiw-card{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:28px 24px;position:relative;transition:transform .25s, box-shadow .25s}
+.hiw-card:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.hiw-num{font-family:'Cormorant Garant',serif;font-size:40px;font-weight:300;color:var(--bd2);line-height:1;margin-bottom:16px}
+.hiw-icon{width:52px;height:52px;background:var(--sa-dim);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
+.hiw-name{font-family:'Cormorant Garant',serif;font-size:19px;font-weight:500;margin-bottom:8px}
+.hiw-desc{font-size:13.5px;font-weight:300;color:var(--tx2);line-height:1.65}
+
+/* ── FEATURES ── */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:900px;margin:0 auto}
+.feat-item{display:flex;gap:14px;align-items:flex-start;padding:20px 22px;background:#fff;border:1px solid var(--bd);border-radius:var(--r);transition:border-color .2s, transform .2s}
+.feat-item:hover{border-color:var(--sa);transform:translateX(3px)}
+.feat-dot{width:8px;height:8px;background:var(--sa);border-radius:50%;flex-shrink:0;margin-top:7px}
+.feat-text{font-size:14px;color:var(--tx);line-height:1.55}
+.feat-text strong{font-weight:500;display:block;margin-bottom:2px;color:var(--tx)}
+.feat-text span{color:var(--tx2);font-weight:300}
+
+/* ── NEWS ── */
+.news-track-wrap{overflow:hidden;position:relative;padding-bottom:4px;max-width:1100px;margin:0 auto}
+.news-track{display:flex;gap:20px;overflow-x:auto;padding:4px 4px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.news-track::-webkit-scrollbar{display:none}
+.news-card{min-width:280px;max-width:300px;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:24px;flex-shrink:0;scroll-snap-align:start;transition:transform .25s, box-shadow .25s;display:flex;flex-direction:column}
+.news-card:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.news-badge{display:inline-block;font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--gr);background:var(--gr-light);padding:3px 9px;border-radius:20px;margin-bottom:12px;align-self:flex-start}
+.news-title{font-family:'Cormorant Garant',serif;font-size:18px;font-weight:500;line-height:1.25;margin-bottom:8px;color:var(--tx)}
+.news-desc{font-size:13px;color:var(--tx2);line-height:1.55;margin-bottom:16px;flex:1}
+.news-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:auto}
+.news-date{font-size:11.5px;color:var(--tx3)}
+.news-link{font-size:12.5px;font-weight:500;color:var(--sa);text-decoration:none}
+.news-link:hover{text-decoration:underline}
+
+/* ── WE WERE THERE ── */
+.wwt-wrap{overflow:hidden;position:relative;max-width:1300px;margin:0 auto}
+.wwt-wrap::before,.wwt-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.wwt-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.wwt-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent)}
+.wwt-track{display:flex;gap:16px;animation:scrollX 28s linear infinite;width:max-content}
+.wwt-track:hover{animation-play-state:paused}
+.wwt-img{flex-shrink:0;width:240px;height:160px;border-radius:var(--r);overflow:hidden;border:1px solid var(--bd);background:var(--bg-warm)}
+.wwt-img img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes scrollX{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── TEAM ── */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:24px;max-width:1100px;margin:0 auto}
+.team-card{text-align:center;padding:24px 16px;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);transition:box-shadow .15s, border-color .15s, transform .12s;will-change:transform;cursor:default;transform-style:preserve-3d}
+.team-avatar{width:72px;height:72px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garant',serif;font-size:24px;font-weight:500;color:#fff;overflow:hidden;position:relative}
+.team-avatar img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.team-name{font-size:13.5px;font-weight:500;color:var(--tx);line-height:1.3;margin-bottom:4px}
+.team-role{font-size:11.5px;color:var(--tx2);line-height:1.4}
+
+/* ── FOOTER ── */
+footer{background:var(--bg-dark);color:var(--tx3);padding:clamp(36px,5vh,52px) clamp(20px,5vw,64px) clamp(24px,3vh,36px)}
+.foot-in{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;border-top:1px solid oklch(30% 0.018 255);padding-top:24px}
+.foot-brand{display:flex;align-items:center;gap:10px}
+.foot-brand img{width:28px;height:28px;object-fit:contain;filter:brightness(1.1)}
+.foot-wm{font-family:'Cormorant Garant',serif;font-size:18px;color:#fff;font-weight:600;letter-spacing:-.01em}
+.foot-wm span{color:var(--sa)}
+.foot-copy{font-size:12.5px;color:oklch(55% 0.012 255)}
+.foot-sk{font-family:'Noto Serif Devanagari',serif;font-size:13px;color:oklch(55% 0.015 255)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease, transform .65s ease}
+.rv.visible{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .hiw-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;gap:40px}
+  .hero-p{max-width:100%}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-menu-btn{display:flex}
+  .team-grid{grid-template-columns:repeat(3,1fr);gap:16px}
+  .wwt-img{width:200px;height:135px}
+}
+@media(max-width:480px){
+  .hiw-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-in{flex-direction:column;align-items:flex-start}
+  .hero-btns{flex-direction:column;align-items:stretch}
+  .hero-btns .btn-p,.hero-btns .btn-s{text-align:center;justify-content:center}
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <a href="#" class="logo"><img src="assets/images/chaksuai.png" alt="ChákṣuAI Logo"> <span>ChákṣuAI</span></a>
-            <nav>
-                <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
-                    <span></span><span></span><span></span>
-                </button>
-                <div class="nav-inner">
-                    <ul class="nav-links">
-                        <li><a href="#how-it-works">Overview</a></li>
-                        <li><a href="#news">News</a></li>
-                        <li><a href="#team">Our Team</a></li>
-                    </ul>
-                    <a href="https://chaksuai.ee.iisc.ac.in" target="_blank" class="button button-primary">Try ChákṣuAI</a>
-                </div>
-            </nav>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="mainNav">
+  <a href="#hero" class="nav-logo" aria-label="ChākṣuAI home">
+    <img src="assets/images/chaksuai.png" alt="ChākṣuAI logo">
+    <span class="nav-wm">Chākṣu<span>AI</span></span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-a" href="#how-it-works">Overview</a>
+    <a class="nav-a" href="#how-it-works">How It Works</a>
+    <a class="nav-a" href="#news">News</a>
+    <a class="nav-a" href="#team">Team</a>
+    <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
+  </div>
+  <button class="nav-menu-btn" id="navMenuBtn" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="navMobile">
+  <a class="nav-a" href="#how-it-works">Overview</a>
+  <a class="nav-a" href="#how-it-works">How It Works</a>
+  <a class="nav-a" href="#news">News</a>
+  <a class="nav-a" href="#team">Team</a>
+  <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
+</div>
+
+<!-- ── SANSKRIT BAND ── -->
+<div class="sanskrit-band" id="hero">
+  <p class="devanagari">सर्वेन्द्रियाणां नयनं प्रधानम्</p>
+  <p class="transliteration">Sarvendriyāṇām Nayanaṁ Pradhānam — "Among all senses, sight is supreme."</p>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero" id="overview">
+  <div>
+    <p class="hero-eyebrow rv">IISc Bengaluru · National Vision Health</p>
+    <h1 class="hero-h1 rv">Last-Mile Vision Care,<br><em>Powered by AI.</em></h1>
+    <p class="hero-p rv">ChākṣuAI equips frontline health workers across India with AI-powered ocular diagnostic tools — trained on India-specific data, capable of disease classification, abnormality detection, and retinal segmentation, accessible even in remote settings.</p>
+    <div class="hero-btns rv">
+      <a class="btn-p" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
+      <a class="btn-s" href="#how-it-works">See How It Works</a>
+    </div>
+  </div>
+  <div class="rv">
+    <div class="video-wrap" id="videoWrap">
+      <video id="hero-video" src="assets/videos/demo.mp4" preload="none" muted playsinline></video>
+      <div class="video-thumb" id="videoThumb" role="button" tabindex="0" aria-label="Play demo video">
+        <div class="play-btn"><div class="play-icon-triangle"></div></div>
+        <span class="video-label">Watch Demo</span>
+      </div>
+      <div class="video-controls" id="videoControls">
+        <input type="range" class="video-seek" id="videoSeek" value="0" min="0" max="100" step="0.1" aria-label="Seek video">
+        <div class="video-ctrl-row">
+          <button class="vc-btn" id="play-pause-btn" aria-label="Play or pause">
+            <svg class="icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <button class="vc-btn" id="seek-backward-btn" aria-label="Rewind 10 seconds">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+          </button>
+          <button class="vc-btn" id="seek-forward-btn" aria-label="Forward 10 seconds">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg>
+          </button>
+          <button class="vc-btn" id="mute-btn" aria-label="Mute or unmute">
+            <svg class="icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            <svg class="icon-unmuted" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.28 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+          </button>
+          <span class="vc-time" id="videoTime">0:00 / 0:00</span>
+          <button class="vc-btn" id="fullscreen-btn" aria-label="Toggle fullscreen">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
         </div>
-    </header>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <main>
-        <section id="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h2>Last-Mile Vision Care,<br><em>Powered by AI.</em></h2>
-                    <p>ChákṣuAI is an AI-powered diagnostic platform designed to prevent preventable blindness across India by enabling frontline healthcare workers to deliver comprehensive eye care. Using India-specific AI models trained on the Chákṣu dataset, it provides accurate disease classification, abnormality detection, and retinal segmentation.</p>
-                </div>
-                <div class="hero-visual">
-                    <div class="video-container">
-                        <video id="hero-video" autoplay loop muted playsinline>
-                            <source src="assets/videos/demo.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="video-controls">
-                            <button id="seek-backward-btn" aria-label="Seek Backward 10 seconds">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z" fill="white"/></svg>
-                            </button>
-                            <button id="play-pause-btn" aria-label="Pause">
-                                <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </button>
-                            <button id="seek-forward-btn" aria-label="Seek Forward 10 seconds">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" fill="white"/></svg>
-                            </button>
-                            <button id="mute-btn" aria-label="Unmute">
-                                <svg class="mute-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
-                                <svg class="unmute-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.28 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── HOW IT WORKS ── -->
+<section class="sec sec-alt" id="how-it-works">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Workflow</span>
+    <h2 class="sec-title">How It Works</h2>
+    <p class="sec-sub">A seamless four-step journey from image capture to clinical action — designed for field conditions.</p>
+  </div>
+  <div class="hiw-grid" id="hiwGrid"></div>
+</section>
 
-        <section id="how-it-works" class="section-light">
-            <div class="container">
-                <h3 class="section-title">How It Works</h3>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-card-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                        </div>
-                        <h4>1. Capture Retinal Images</h4>
-                        <p>Use smartphone-based fundus imaging attachments or standard equipment to capture high-quality retinal images suitable for AI analysis.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-card-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
-                        </div>
-                        <h4>2. AI-Powered Diagnosis</h4>
-                        <p>Our India-specific AI models, trained on the Chákṣu dataset, analyze images using advanced CNNs and Transformers for accurate disease detection and classification.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-card-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                        </div>
-                        <h4>3. Comprehensive Reports</h4>
-                        <p>Receive detailed diagnostic reports with explainable AI visualizations, helping healthcare workers make informed decisions and referrals.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-card-icon">
-                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        </div>
-                        <h4>4. Expert Consultation</h4>
-                        <p>Access our ophthalmology-specific chatbot powered by fine-tuned LLM with RAG to assist in primary screening and treatment planning.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── CORE FEATURES ── -->
+<section class="sec" id="features">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Capabilities</span>
+    <h2 class="sec-title">Core Features</h2>
+    <p class="sec-sub">Eight clinical capabilities engineered for frontline ophthalmic screening at scale.</p>
+  </div>
+  <div class="feat-grid" id="featGrid"></div>
+</section>
 
-        <section id="features" class="section-light">
-            <div class="container">
-                <h3 class="section-title">Core Features</h3>
-                <ul class="features-list">
-                    <li><strong>Multi-Disease Classification:</strong> Diagnose key eye diseases including diabetic retinopathy, glaucoma, and age-related macular degeneration (AMD) from fundus images.</li>
-                    <li><strong>Abnormality Detection:</strong> Identify and locate specific biomarkers such as microaneurysms, haemorrhages, and exudates with high precision.</li>
-                    <li><strong>Advanced Retinal Segmentation:</strong> Perform detailed segmentation of anatomical structures including optic disc, optic cup, retinal vessels, and lesions.</li>
-                    <li><strong>India-Specific AI Models:</strong> Trained on the Chákṣu dataset and other India-specific data to ensure high demographic relevance and reduced bias.</li>
-                    <li><strong>Explainable AI:</strong> Provides visual explanations and transparency in model predictions, enabling trust and verification by healthcare professionals.</li>
-                    <li><strong>Integrated Chatbot:</strong> Ophthalmology-specific LLM with Retrieval Augmented Generation (RAG) to assist frontline healthcare workers in screening and referrals.</li>
-                    <li><strong>Smartphone Compatible:</strong> Optimized for deployment on smartphones with low-cost fundus imaging attachments for remote healthcare settings.</li>
-                    <li><strong>Cost-Effective Solution:</strong> Designed to be accessible and affordable, breaking down cost barriers for rural and underserved communities.</li>
-                </ul>
-            </div>
-        </section>
+<!-- ── NEWS ── -->
+<section class="sec sec-alt" id="news">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Latest</span>
+    <h2 class="sec-title">News &amp; Updates</h2>
+    <p class="sec-sub">Recent milestones, events, and announcements from the ChākṣuAI team.</p>
+  </div>
+  <div class="news-track-wrap rv">
+    <div class="news-track" id="newsTrack"></div>
+  </div>
+</section>
 
-        <section id="news">
-            <div class="container">
-                <h3 class="section-title">Latest News & Updates</h3>
-                <div class="news-carousel-container">
-                    <div class="news-carousel-track">
-                        <article class="news-card">
-                            <p class="news-category">Course</p>
-                            <h4>SPARC Course on Human Perception and Image Analysis</h4>
-                            <p>January 20-25, 2025: Course on "Human Perception and Image Analysis in the Era of Machine Learning" at IISc Bengaluru. Instructors: Prof. Thrasyvoulos Pappas (Northwestern University) and Prof. Gaurav Sharma (University of Rochester). Registration is free but mandatory.</p>
-                            <p class="news-date">January 20-25, 2025</p>
-                            <a href="https://forms.office.com/r/qeDfLccnSg" target="_blank" class="news-link">Register Here &rarr;</a>
-                        </article>
-                        <article class="news-card">
-                            <p class="news-category">Symposium</p>
-                            <h4>AI for Eyecare Symposium</h4>
-                            <p>A One-Day Symposium on Artificial Intelligence for Eyecare supported by SPARC, Ministry of Education, Govt. of India and Kotak IISc AI-ML Centre. Registration is free but mandatory.</p>
-                            <p class="news-date">January 17, 2025</p>
-                            <a href="https://forms.office.com/r/jDJJ9NuFUB" target="_blank" class="news-link">Register Here &rarr;</a>
-                        </article>
-                        <article class="news-card">
-                            <p class="news-category">Website Launch</p>
-                            <h4>New ChákṣuAI Website Launched</h4>
-                            <p>We're excited to announce the launch of our new ChákṣuAI project website! Explore our latest features and updates.</p>
-                            <p class="news-date">January 14, 2025</p>
-                            <a href="#" class="news-link">Learn More &rarr;</a>
-                        </article>
-                        <article class="news-card">
-                            <p class="news-category">Funding</p>
-                            <h4>KIAC Funding Approved</h4>
-                            <p>Our ChákṣuAI project has received funding from the Kotak IISc AI-ML Centre (KIAC). This funding will enable us to further develop deep technology solutions for public good.</p>
-                            <p class="news-date">November 25, 2024</p>
-                            <a href="#" class="news-link">Read More &rarr;</a>
-                        </article>
-                        <!-- Duplicate cards for seamless loop -->
-                        <article class="news-card">
-                            <p class="news-category">Course</p>
-                            <h4>SPARC Course on Human Perception and Image Analysis</h4>
-                            <p>January 20-25, 2025: Course on "Human Perception and Image Analysis in the Era of Machine Learning" at IISc Bengaluru. Instructors: Prof. Thrasyvoulos Pappas (Northwestern University) and Prof. Gaurav Sharma (University of Rochester). Registration is free but mandatory.</p>
-                            <p class="news-date">January 20-25, 2025</p>
-                            <a href="https://forms.office.com/r/qeDfLccnSg" target="_blank" class="news-link">Register Here &rarr;</a>
-                        </article>
-                        <article class="news-card">
-                            <p class="news-category">Symposium</p>
-                            <h4>AI for Eyecare Symposium</h4>
-                            <p>A One-Day Symposium on Artificial Intelligence for Eyecare supported by SPARC, Ministry of Education, Govt. of India and Kotak IISc AI-ML Centre. Registration is free but mandatory.</p>
-                            <p class="news-date">January 17, 2025</p>
-                            <a href="https://forms.office.com/r/jDJJ9NuFUB" target="_blank" class="news-link">Register Here &rarr;</a>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── WE WERE THERE ── -->
+<section class="sec" id="events">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Presence</span>
+    <h2 class="sec-title">We Were There At</h2>
+    <p class="sec-sub">Conferences, symposiums, and field deployments where ChākṣuAI has been demonstrated.</p>
+  </div>
+  <div class="wwt-wrap rv">
+    <div class="wwt-track" id="wwtTrack"></div>
+  </div>
+</section>
 
-        <section id="we-were-there" class="section-light">
-            <div class="container">
-                <h3 class="section-title">We were there at</h3>
-                <div class="carousel-container">
-                    <div class="carousel-track">
-                        <!-- Slides are duplicated for a seamless loop -->
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel1.png" alt="Event Image 1">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel2.png" alt="Event Image 2">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel3.png" alt="Event Image 3">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel4.png" alt="Event Image 4">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel6.png" alt="Event Image 5">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel7.png" alt="Event Image 6">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel1.png" alt="Event Image 1">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel2.png" alt="Event Image 2">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel3.png" alt="Event Image 3">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel4.png" alt="Event Image 4">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel6.png" alt="Event Image 5">
-                        </div>
-                        <div class="carousel-slide">
-                            <img src="assets/images/carousel/carousel7.png" alt="Event Image 6">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ── TEAM ── -->
+<section class="sec sec-alt" id="team">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">People</span>
+    <h2 class="sec-title">Meet Our Team</h2>
+    <p class="sec-sub">Researchers and specialists from IISc Bengaluru, working to bring AI-powered vision care to every corner of India.</p>
+  </div>
+  <div class="team-grid" id="teamGrid"></div>
+</section>
 
-        <section id="team">
-            <div class="container">
-                <h3 class="section-title">Meet Our Team</h3>
-                <div class="team-grid">
-                    <div class="team-member-card">
-                        <img src="assets/images/css.jpg" alt="Team Member Chandra Sekhar Seelamantula">
-                        <h4>Prof. Chandra Sekhar Seelamantula</h4>
-                        <p class="team-member-title">Project Supervisor</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/Aditya.png" alt="Team Member Aditya Barigali">
-                        <h4>Aditya Barigali</h4>
-                        <p class="team-member-title">Program Manager</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/Anagha.jpeg" alt="Team Member Anagha Unnikrishnan">
-                        <h4>Anagha Unnikrishnan</h4>
-                        <p class="team-member-title">Public Health Specialist</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/pramath.jpg" alt="Team Member Pramath Haritz">
-                        <h4>Pramath Haritz</h4>
-                        <p class="team-member-title">Research Assistant</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/yash.jpg" alt="Team Member Yash Shingare">
-                        <h4>Yash Shingare</h4>
-                        <p class="team-member-title">Research Assistant</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/Ashish.jpeg" alt="Team Member Ashish Kumar Meena">
-                        <h4>Ashish Kumar Meena</h4>
-                        <p class="team-member-title">Research Assistant</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/parth.jpeg" alt="Team Member Parth Gupte">
-                        <h4>Parth Gupte</h4>
-                        <p class="team-member-title">Research Assistant</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/anirudh-h-a.jpeg" alt="Team Member Anirudh H A">
-                        <h4>Anirudh H A</h4>
-                        <p class="team-member-title">Research Intern</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/saquib.jpeg" alt="Team Member Saquib M">
-                        <h4>Saquib M</h4>
-                        <p class="team-member-title">Research Staff Member</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/Allen.png" alt="Team Member Allen Patnaik">
-                        <h4>Allen Patnaik</h4>
-                        <p class="team-member-title">Research Staff Member</p>
-                    </div>
-                    <div class="team-member-card">
-                        <img src="assets/images/Akhil.jpg" alt="Team Member Akhil">
-                        <h4>Akhil</h4>
-                        <p class="team-member-title">Early Stage Researcher</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-brand">
+      <img src="assets/images/chaksuai.png" alt="ChākṣuAI logo">
+      <span class="foot-wm">Chākṣu<span>AI</span></span>
+    </div>
+    <span class="foot-copy">&copy; 2025 ChākṣuAI. All rights reserved.</span>
+    <span class="foot-sk">सर्वेन्द्रियाणां नयनं प्रधानम्</span>
+  </div>
+</footer>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2025 ChákṣuAI. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+<script>
+(function(){
+  'use strict';
+  const SA = 'var(--sa)';
 
-    <script src="script.js"></script>
+  // ── NAV: shadow on scroll + mobile toggle ──
+  const nav = document.getElementById('mainNav');
+  const navMenuBtn = document.getElementById('navMenuBtn');
+  const navMobile = document.getElementById('navMobile');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 20) nav.classList.add('s'); else nav.classList.remove('s');
+  });
+  navMenuBtn.addEventListener('click', function(){
+    const open = navMobile.classList.toggle('open');
+    navMenuBtn.classList.toggle('open', open);
+    navMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  navMobile.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      navMobile.classList.remove('open');
+      navMenuBtn.classList.remove('open');
+      navMenuBtn.setAttribute('aria-expanded','false');
+    });
+  });
+
+  // ── HOW IT WORKS ──
+  const HIW = [
+    { n: '01', name: 'Capture Retinal Images',
+      desc: 'Take a photo with a smartphone fundus attachment or standard ophthalmic equipment — no specialist hardware required.',
+      svg: '<svg width="26" height="26" viewBox="0 0 40 40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="'+SA+'" stroke-width="2">'+
+           '<rect x="4" y="11" width="32" height="23" rx="3"/>'+
+           '<path d="M14 11 L14 8 Q14 6 16 6 L24 6 Q26 6 26 8 L26 11"/>'+
+           '<circle cx="20" cy="23" r="6.5"/>'+
+           '<circle cx="20" cy="23" r="2.5" fill="'+SA+'" stroke="none"/>'+
+           '<circle cx="31" cy="15" r="1.5" fill="'+SA+'" stroke="none"/>'+
+           '</svg>' },
+    { n: '02', name: 'AI-Powered Diagnosis',
+      desc: 'Models trained on the Chákṣu dataset analyse the image for DR, Glaucoma, AMD, lesions, and vascular abnormalities.',
+      svg: '<svg width="26" height="26" viewBox="0 0 40 40" fill="none" stroke="'+SA+'">'+
+           '<circle cx="6" cy="13" r="3" fill="'+SA+'" stroke-width="0" opacity=".6"/>'+
+           '<circle cx="6" cy="27" r="3" fill="'+SA+'" stroke-width="0" opacity=".6"/>'+
+           '<circle cx="20" cy="8" r="3" fill="'+SA+'" stroke-width="0"/>'+
+           '<circle cx="20" cy="20" r="3" fill="'+SA+'" stroke-width="0"/>'+
+           '<circle cx="20" cy="32" r="3" fill="'+SA+'" stroke-width="0"/>'+
+           '<circle cx="34" cy="20" r="3.5" fill="'+SA+'" stroke-width="0"/>'+
+           '<line x1="9" y1="13" x2="17" y2="8" stroke-width="1" opacity=".4"/>'+
+           '<line x1="9" y1="13" x2="17" y2="20" stroke-width="1" opacity=".4"/>'+
+           '<line x1="9" y1="13" x2="17" y2="32" stroke-width="1" opacity=".4"/>'+
+           '<line x1="9" y1="27" x2="17" y2="8" stroke-width="1" opacity=".4"/>'+
+           '<line x1="9" y1="27" x2="17" y2="20" stroke-width="1" opacity=".4"/>'+
+           '<line x1="9" y1="27" x2="17" y2="32" stroke-width="1" opacity=".4"/>'+
+           '<line x1="23" y1="8"  x2="31" y2="20" stroke-width="1.3" opacity=".6"/>'+
+           '<line x1="23" y1="20" x2="31" y2="20" stroke-width="1.3" opacity=".6"/>'+
+           '<line x1="23" y1="32" x2="31" y2="20" stroke-width="1.3" opacity=".6"/>'+
+           '</svg>' },
+    { n: '03', name: 'Comprehensive Reports',
+      desc: 'Receive a downloadable PDF report complete with AI-generated visual overlays, severity grades, and clinical recommendations.',
+      svg: '<svg width="26" height="26" viewBox="0 0 40 40" fill="none" stroke-linecap="round" stroke="'+SA+'" stroke-width="1.8">'+
+           '<rect x="7" y="3" width="26" height="34" rx="3"/>'+
+           '<line x1="13" y1="12" x2="27" y2="12"/>'+
+           '<line x1="13" y1="18" x2="23" y2="18"/>'+
+           '<rect x="13" y="26" width="3.5" height="7"  fill="'+SA+'" stroke="none" opacity=".45" rx="1"/>'+
+           '<rect x="18.5" y="23" width="3.5" height="10" fill="'+SA+'" stroke="none" opacity=".65" rx="1"/>'+
+           '<rect x="24" y="20" width="3.5" height="13" fill="'+SA+'" stroke="none" rx="1"/>'+
+           '</svg>' },
+    { n: '04', name: 'Expert Consultation',
+      desc: 'Query the integrated ophthalmology chatbot (LLM + RAG) for guidance on findings, treatment pathways, and referrals.',
+      svg: '<svg width="26" height="26" viewBox="0 0 40 40" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke="'+SA+'" stroke-width="2">'+
+           '<path d="M5 6 Q5 3 8 3 L32 3 Q35 3 35 6 L35 24 Q35 27 32 27 L17 27 L10 33 L10 27 Q5 27 5 24 Z"/>'+
+           '<line x1="20" y1="10" x2="20" y2="20"/>'+
+           '<line x1="15" y1="15" x2="25" y2="15"/>'+
+           '</svg>' }
+  ];
+  const hiwGrid = document.getElementById('hiwGrid');
+  HIW.forEach(function(h){
+    const c = document.createElement('div');
+    c.className = 'hiw-card rv';
+    c.innerHTML =
+      '<div class="hiw-num">'+h.n+'</div>'+
+      '<div class="hiw-icon">'+h.svg+'</div>'+
+      '<div class="hiw-name">'+h.name+'</div>'+
+      '<p class="hiw-desc">'+h.desc+'</p>';
+    hiwGrid.appendChild(c);
+  });
+
+  // ── FEATURES ──
+  const FEATS = [
+    { name: 'Multi-disease Classification', desc: 'DR · Glaucoma · AMD detection in a single upload' },
+    { name: 'Abnormality Detection',        desc: 'Microaneurysms, haemorrhages, hard and soft exudates' },
+    { name: 'Advanced Retinal Segmentation',desc: 'DDLS staging, CDR analysis, sector rim-ratio measurements' },
+    { name: 'India-Specific AI Models',     desc: 'Trained on the Chákṣu dataset — built for Indian populations' },
+    { name: 'Explainable AI',               desc: 'Visual gradient overlays highlight decision-critical regions' },
+    { name: 'Integrated Chatbot',           desc: 'LLM + RAG for real-time ophthalmology consultation' },
+    { name: 'Smartphone Compatible',        desc: 'Works with standard smartphone fundus adapters in the field' },
+    { name: 'Cost-Effective & Accessible',  desc: 'Designed for last-mile deployment — minimal infrastructure needed' }
+  ];
+  const featGrid = document.getElementById('featGrid');
+  FEATS.forEach(function(f){
+    const d = document.createElement('div');
+    d.className = 'feat-item rv';
+    d.innerHTML = '<span class="feat-dot"></span><div class="feat-text"><strong>'+f.name+'</strong><span>'+f.desc+'</span></div>';
+    featGrid.appendChild(d);
+  });
+
+  // ── NEWS ──
+  const NEWS = [
+    { badge: 'Course',     title: 'SPARC Course on Human Perception &amp; Image Analysis',
+      desc: 'Course on "Human Perception and Image Analysis in the Era of Machine Learning" at IISc Bengaluru with Prof. Pappas and Prof. Sharma. Registration is free but mandatory.',
+      date: 'Jan 20–25, 2025', link: 'https://forms.office.com/r/qeDfLccnSg', linkLabel: 'Register here →', external: true },
+    { badge: 'Symposium',  title: 'AI for Eyecare Symposium',
+      desc: 'A one-day symposium on Artificial Intelligence for Eyecare supported by SPARC, Ministry of Education, and the Kotak IISc AI-ML Centre. Registration is free but mandatory.',
+      date: 'Jan 17, 2025', link: 'https://forms.office.com/r/jDJJ9NuFUB', linkLabel: 'Register here →', external: true },
+    { badge: 'Launch',     title: 'New ChākṣuAI Website',
+      desc: 'Launched the redesigned ChākṣuAI platform with improved diagnostic UI, expanded model capabilities, and new explainability features.',
+      date: 'Jan 14, 2025', link: '#', linkLabel: 'Learn more →', external: false },
+    { badge: 'Funding',    title: 'KIAC Funding Approved',
+      desc: 'Received Kotak IISc AI-ML Centre grant approval to expand ChākṣuAI deployment across rural districts in Karnataka and Uttar Pradesh.',
+      date: 'Nov 25, 2024', link: '#', linkLabel: 'Read more →', external: false }
+  ];
+  const newsTrack = document.getElementById('newsTrack');
+  NEWS.forEach(function(n){
+    const extAttrs = n.external ? ' target="_blank" rel="noopener"' : '';
+    const card = document.createElement('article');
+    card.className = 'news-card';
+    card.innerHTML =
+      '<span class="news-badge">'+n.badge+'</span>'+
+      '<div class="news-title">'+n.title+'</div>'+
+      '<p class="news-desc">'+n.desc+'</p>'+
+      '<div class="news-footer">'+
+        '<span class="news-date">'+n.date+'</span>'+
+        '<a class="news-link" href="'+n.link+'"'+extAttrs+'>'+n.linkLabel+'</a>'+
+      '</div>';
+    newsTrack.appendChild(card);
+  });
+
+  // ── WE WERE THERE (ticker using existing carousel images) ──
+  const EVENTS = [
+    'assets/images/carousel/carousel1.png',
+    'assets/images/carousel/carousel2.png',
+    'assets/images/carousel/carousel3.png',
+    'assets/images/carousel/carousel4.png',
+    'assets/images/carousel/carousel5.png',
+    'assets/images/carousel/carousel6.png',
+    'assets/images/carousel/carousel7.png'
+  ];
+  const wwtTrack = document.getElementById('wwtTrack');
+  const wwtDouble = EVENTS.concat(EVENTS);
+  wwtDouble.forEach(function(src, i){
+    const d = document.createElement('div');
+    d.className = 'wwt-img';
+    d.innerHTML = '<img src="'+src+'" alt="Event '+((i % EVENTS.length)+1)+'" loading="lazy">';
+    wwtTrack.appendChild(d);
+  });
+
+  // ── TEAM ──
+  const TEAM = [
+    { name: 'Prof. Chandra Sekhar Seelamantula', role: 'Project Supervisor',        init: 'CS', hue: 240, img: 'assets/images/css.jpg' },
+    { name: 'Aditya Barigali',                   role: 'Program Manager',           init: 'AB', hue: 155, img: 'assets/images/Aditya.png' },
+    { name: 'Anagha Unnikrishnan',               role: 'Public Health Specialist',  init: 'AU', hue: 55,  img: 'assets/images/Anagha.jpeg' },
+    { name: 'Pramath Haritz',                    role: 'Research Assistant',        init: 'PH', hue: 300, img: 'assets/images/pramath.jpg' },
+    { name: 'Yash Shingare',                     role: 'Research Assistant',        init: 'YS', hue: 200, img: 'assets/images/yash.jpg' },
+    { name: 'Ashish Kumar Meena',                role: 'Research Assistant',        init: 'AK', hue: 0,   img: 'assets/images/Ashish.jpeg' },
+    { name: 'Parth Gupte',                       role: 'Research Assistant',        init: 'PG', hue: 170, img: 'assets/images/parth.jpeg' },
+    { name: 'Anirudh H A',                       role: 'Research Intern',           init: 'AH', hue: 260, img: 'assets/images/anirudh-h-a.jpeg' },
+    { name: 'Saquib M',                          role: 'Research Staff',            init: 'SM', hue: 30,  img: 'assets/images/saquib.jpeg' },
+    { name: 'Allen Patnaik',                     role: 'Research Staff',            init: 'AP', hue: 180, img: 'assets/images/Allen.png' },
+    { name: 'Akhil',                             role: 'Early Stage Researcher',    init: 'AK', hue: 140, img: 'assets/images/Akhil.jpg' }
+  ];
+  const teamGrid = document.getElementById('teamGrid');
+  TEAM.forEach(function(t){
+    const bgColor = 'oklch(42% 0.14 '+t.hue+')';
+    const card = document.createElement('div');
+    card.className = 'team-card rv';
+    const avatarInner = t.img
+      ? '<img src="'+t.img+'" alt="'+t.name+'" loading="lazy" onerror="this.remove();this.parentNode.innerHTML=\''+t.init+'\'">'
+      : t.init;
+    card.innerHTML =
+      '<div class="team-avatar" style="background:'+bgColor+'">'+avatarInner+'</div>'+
+      '<div class="team-name">'+t.name+'</div>'+
+      '<div class="team-role">'+t.role+'</div>';
+    // 3D tilt (pure JS onmousemove)
+    card.addEventListener('mousemove', function(e){
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width/2)  / (rect.width/2);
+      const y = (e.clientY - rect.top  - rect.height/2) / (rect.height/2);
+      card.style.transform   = 'perspective(700px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg) translateZ(8px)';
+      card.style.boxShadow   = (-x*14)+'px '+(y*10)+'px 32px oklch(18% 0.015 255 / 0.16)';
+      card.style.borderColor = 'var(--sa)';
+    });
+    card.addEventListener('mouseleave', function(){
+      card.style.transform = '';
+      card.style.boxShadow = '';
+      card.style.borderColor = '';
+    });
+    teamGrid.appendChild(card);
+  });
+
+  // ── REVEAL (IntersectionObserver with stagger inside each container) ──
+  const reveal = function(){
+    const obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        // Stagger by position among sibling .rv
+        const parent = el.parentElement;
+        let idx = 0;
+        if (parent) {
+          const siblings = Array.prototype.filter.call(parent.children, function(c){ return c.classList && c.classList.contains('rv'); });
+          idx = siblings.indexOf(el);
+          if (idx < 0) idx = 0;
+        }
+        el.style.transitionDelay = (idx * 0.08) + 's';
+        el.classList.add('visible');
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.rv').forEach(function(el){ obs.observe(el); });
+  };
+  // Kick off reveal
+  if ('IntersectionObserver' in window) reveal();
+  else document.querySelectorAll('.rv').forEach(function(el){ el.classList.add('visible'); });
+
+  // Initial hero fadeUp stagger (force visible w/ small delays so above-the-fold animates immediately)
+  document.querySelectorAll('#overview .rv').forEach(function(el, i){
+    el.style.transitionDelay = (0.1 + i * 0.12) + 's';
+    requestAnimationFrame(function(){ el.classList.add('visible'); });
+  });
+
+  // ── VIDEO CONTROLS ──
+  const video = document.getElementById('hero-video');
+  const thumb = document.getElementById('videoThumb');
+  const controls = document.getElementById('videoControls');
+  const seek = document.getElementById('videoSeek');
+  const playBtn = document.getElementById('play-pause-btn');
+  const backBtn = document.getElementById('seek-backward-btn');
+  const fwdBtn = document.getElementById('seek-forward-btn');
+  const muteBtn = document.getElementById('mute-btn');
+  const fsBtn = document.getElementById('fullscreen-btn');
+  const timeEl = document.getElementById('videoTime');
+  const iconPlay = playBtn.querySelector('.icon-play');
+  const iconPause = playBtn.querySelector('.icon-pause');
+  const iconMuted = muteBtn.querySelector('.icon-muted');
+  const iconUnmuted = muteBtn.querySelector('.icon-unmuted');
+
+  function fmt(sec){
+    if (!isFinite(sec) || isNaN(sec)) return '0:00';
+    sec = Math.max(0, Math.floor(sec));
+    const m = Math.floor(sec/60); const s = sec%60;
+    return m+':'+(s<10?'0':'')+s;
+  }
+
+  function startPlay(){
+    if (!video) return;
+    thumb.classList.add('hidden');
+    const p = video.play();
+    if (p && typeof p.then === 'function') p.catch(function(){ /* autoplay blocked; thumb stays visible */ thumb.classList.remove('hidden'); });
+  }
+  function togglePlay(){
+    if (!video) return;
+    if (video.paused || video.ended) { startPlay(); }
+    else video.pause();
+  }
+  function syncPlayIcon(){
+    const playing = !video.paused && !video.ended;
+    iconPlay.style.display  = playing ? 'none' : 'block';
+    iconPause.style.display = playing ? 'block' : 'none';
+    playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+  }
+  function syncMuteIcon(){
+    const muted = video.muted;
+    iconMuted.style.display   = muted ? 'block' : 'none';
+    iconUnmuted.style.display = muted ? 'none'  : 'block';
+    muteBtn.setAttribute('aria-label', muted ? 'Unmute' : 'Mute');
+  }
+
+  if (video) {
+    thumb.addEventListener('click', startPlay);
+    thumb.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); startPlay(); }
+    });
+    playBtn.addEventListener('click', togglePlay);
+    backBtn.addEventListener('click', function(){ video.currentTime = Math.max(0, video.currentTime - 10); });
+    fwdBtn .addEventListener('click', function(){ video.currentTime = Math.min(video.duration || 0, video.currentTime + 10); });
+    muteBtn.addEventListener('click', function(){ video.muted = !video.muted; syncMuteIcon(); });
+    fsBtn  .addEventListener('click', function(){
+      const wrap = document.getElementById('videoWrap');
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (wrap.requestFullscreen) wrap.requestFullscreen();
+    });
+    video.addEventListener('play',  function(){ syncPlayIcon(); thumb.classList.add('hidden'); });
+    video.addEventListener('pause', syncPlayIcon);
+    video.addEventListener('ended', function(){ syncPlayIcon(); });
+    video.addEventListener('volumechange', syncMuteIcon);
+    video.addEventListener('timeupdate', function(){
+      const d = video.duration || 0;
+      const t = video.currentTime || 0;
+      if (d > 0) seek.value = String((t / d) * 100);
+      timeEl.textContent = fmt(t) + ' / ' + fmt(d);
+    });
+    video.addEventListener('loadedmetadata', function(){
+      timeEl.textContent = fmt(0) + ' / ' + fmt(video.duration);
+    });
+    video.addEventListener('error', function(){ thumb.classList.remove('hidden'); });
+    seek.addEventListener('input', function(){
+      if (video.duration) video.currentTime = (parseFloat(seek.value) / 100) * video.duration;
+    });
+    // Initial icon sync
+    syncMuteIcon();
+    syncPlayIcon();
+  }
+})();
+</script>
+
 </body>
 </html>
