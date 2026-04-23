@@ -153,11 +153,14 @@ a{color:inherit}
 .feat-text span{color:var(--tx2);font-weight:300}
 
 /* ── NEWS ── */
-.news-track-wrap{overflow:hidden;position:relative;padding-bottom:4px;max-width:1100px;margin:0 auto}
-.news-track{display:flex;gap:20px;overflow-x:auto;padding:4px 4px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-.news-track::-webkit-scrollbar{display:none}
-.news-card{min-width:280px;max-width:300px;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:24px;flex-shrink:0;scroll-snap-align:start;transition:transform .25s, box-shadow .25s;display:flex;flex-direction:column}
-.news-card:hover{transform:translateY(-3px);box-shadow:var(--sh)}
+.news-track-wrap{overflow:hidden;position:relative;padding:4px 0;max-width:1300px;margin:0 auto}
+.news-track-wrap::before,.news-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.news-track-wrap::before{left:0;background:linear-gradient(to right,var(--bg-warm),transparent)}
+.news-track-wrap::after{right:0;background:linear-gradient(to left,var(--bg-warm),transparent)}
+.news-track{display:flex;gap:20px;animation:scrollX 45s linear infinite;width:max-content;padding:4px}
+.news-track:hover{animation-play-state:paused}
+.news-card{width:300px;background:#fff;border:1px solid var(--bd);border-radius:var(--rl);padding:24px;flex-shrink:0;transition:transform .25s, box-shadow .25s, border-color .25s;display:flex;flex-direction:column}
+.news-card:hover{transform:translateY(-3px);box-shadow:var(--sh);border-color:var(--bd2)}
 .news-badge{display:inline-block;font-size:10.5px;font-weight:500;letter-spacing:.07em;color:var(--gr);background:var(--gr-light);padding:3px 9px;border-radius:20px;margin-bottom:12px;align-self:flex-start}
 .news-title{font-family:'Cormorant Garant',serif;font-size:18px;font-weight:500;line-height:1.25;margin-bottom:8px;color:var(--tx)}
 .news-desc{font-size:13px;color:var(--tx2);line-height:1.55;margin-bottom:16px;flex:1}
@@ -488,7 +491,9 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
       date: 'Nov 25, 2024', link: '#', linkLabel: 'Read more →', external: false }
   ];
   const newsTrack = document.getElementById('newsTrack');
-  NEWS.forEach(function(n){
+  // Duplicate the list so the auto-scroll ticker loops seamlessly (matches WWT pattern)
+  const newsDouble = NEWS.concat(NEWS);
+  newsDouble.forEach(function(n){
     const extAttrs = n.external ? ' target="_blank" rel="noopener"' : '';
     const card = document.createElement('article');
     card.className = 'news-card';
