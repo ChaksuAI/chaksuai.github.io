@@ -289,7 +289,24 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
 .leaflet-control-zoom a{background:#fff !important;color:var(--tx2) !important;border:none !important;border-bottom:1px solid var(--bd) !important;font-family:inherit !important;font-weight:400 !important}
 .leaflet-control-zoom a:last-child{border-bottom:none !important}
 .leaflet-control-zoom a:hover{color:var(--sa) !important;background:var(--bg-warm) !important}
-.leaflet-container{background:var(--bg-warm) !important;font-family:'DM Sans',sans-serif !important}
+.leaflet-container{background:var(--bg) !important;font-family:'DM Sans',sans-serif !important}
+
+/* State name labels — render as plain text at each polygon centre */
+.leaflet-tooltip.state-label{
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  padding:0 !important;
+  font-family:'DM Sans',sans-serif !important;
+  font-size:10px !important;
+  font-weight:500 !important;
+  color:#6a5f47 !important;
+  letter-spacing:.03em;
+  white-space:nowrap;
+  pointer-events:none !important;
+  text-shadow:0 0 3px #fdfaf2,0 0 6px #fdfaf2,0 0 2px #fdfaf2;
+}
+.leaflet-tooltip.state-label::before{display:none !important}
 
 .sites-reset{position:absolute;top:14px;right:14px;background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:8px 14px;font-size:12px;font-weight:500;color:var(--tx);cursor:pointer;transition:.18s;box-shadow:var(--sh);z-index:1001;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
 .sites-reset:hover{color:var(--sa);border-color:var(--sa);transform:translateY(-1px);box-shadow:0 3px 14px oklch(72% 0.19 52 / 0.22)}
@@ -911,11 +928,33 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     map.once('focus', function(){ map.scrollWheelZoom.enable(); });
     map.on('click', function(){ map.scrollWheelZoom.enable(); });
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · &copy; <a href="https://carto.com/attributions">CARTO</a>'
-    }).addTo(map);
+    // No world basemap — render India alone: state polygons + centred labels.
+    fetch('assets/sites/india_states.geojson')
+      .then(function(r){ return r.json(); })
+      .then(function(states){
+        L.geoJSON(states, {
+          interactive: false,
+          style: {
+            color: '#b5ad97',
+            weight: 0.75,
+            opacity: 0.9,
+            fillColor: '#fdfaf2',
+            fillOpacity: 1,
+            lineJoin: 'round'
+          },
+          onEachFeature: function(feature, layer){
+            const name = feature.properties && feature.properties.name;
+            if (!name) return;
+            layer.bindTooltip(name, {
+              permanent: true,
+              direction: 'center',
+              className: 'state-label',
+              opacity: 1
+            });
+          }
+        }).addTo(map);
+      })
+      .catch(function(err){ console.warn('India states failed to load:', err); });
 
     // Parse CSV + render everything
     Papa.parse(CSV_URL, {
