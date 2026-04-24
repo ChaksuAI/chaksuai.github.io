@@ -296,8 +296,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
 .sites-reset svg{width:13px;height:13px;display:block}
 
 /* Brand wordmark inside section headings — matches nav "Chākṣu[AI]" */
-.sec-title .ai,.sec-sub .ai{color:var(--sa)}
-.sec-sub .chaksu-mark{color:var(--tx);font-weight:500}
+.sec-title .ai{color:var(--sa)}
 
 .sites-funding{max-width:1300px;margin:48px auto 0;padding:26px clamp(24px,4vw,48px);background:#fff;border:1px solid var(--bd);border-radius:var(--rl);display:flex;align-items:center;justify-content:center;gap:clamp(24px,5vw,56px);flex-wrap:wrap}
 .sites-funding-label{font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);padding-right:8px;border-right:1px solid var(--bd);white-space:nowrap}
@@ -461,7 +460,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
   <div class="sec-hd rv">
     <span class="sec-lbl">Network</span>
     <h2 class="sec-title">National Footprint of Chākṣu<span class="ai">AI</span></h2>
-    <p class="sec-sub">Partner hospitals, eye-care centres and research institutions across India collaborating with <span class="chaksu-mark">Chākṣu<span class="ai">AI</span></span>.</p>
+    <p class="sec-sub">Partner hospitals, eye-care centres and research institutions across India collaborating with ChākṣuAI.</p>
   </div>
   <div class="sites-meta rv">
     <span><b id="sitesCountNum">—</b> sites</span>
@@ -848,7 +847,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
 
   const CSV_URL = 'assets/sites/centers.csv';
   // Lock panning inside India so the section only ever shows India.
-  const INDIA_BOUNDS = [[6.5, 68.0], [37.0, 98.0]];
+  const INDIA_BOUNDS = [[7.5, 68.0], [36.5, 97.5]];
   const HARD_BOUNDS  = [[4.0, 65.0], [39.0, 100.0]];  // panning guard
   const BRAND        = '#2c3e50';
 
@@ -905,7 +904,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
       maxBounds: HARD_BOUNDS,
       maxBoundsViscosity: 1.0,
       scrollWheelZoom: false,
-      attributionControl: true
+      attributionControl: false
     }).fitBounds(INDIA_BOUNDS);
 
     // Let the user wheel-zoom only after they click the map (standard web page pattern).
@@ -989,12 +988,9 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
       markers.push(marker);
     });
 
-    // Fit marker bounds so all points are visible, centred.
-    if (markers.length){
-      map.fitBounds(group.getBounds(), { padding: [40, 40], maxZoom: 6 });
-    } else {
-      map.fitBounds(INDIA_BOUNDS);
-    }
+    // Fit the whole country tight to the map viewport — zero padding so
+    // India fills the frame as much as the container aspect ratio allows.
+    map.fitBounds(INDIA_BOUNDS, { padding: [0, 0] });
 
     // Aggregate stats
     const states = new Set(sites.map(function(s){ return s.state; }).filter(Boolean));
@@ -1088,10 +1084,8 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
       selectedIdx = -1;
       map.closePopup();
       listEl.querySelectorAll('.sites-row').forEach(function(r){ r.classList.remove('selected'); });
-      // Fit to marker bounds (tight on data) rather than all of India.
-      const grp = group.getBounds();
-      if (grp.isValid()) map.flyToBounds(grp, { padding: [40, 40], maxZoom: 6, duration: 0.8 });
-      else map.flyToBounds(INDIA_BOUNDS, { duration: 0.8 });
+      // Return to the full-country view — same extent as initial load.
+      map.flyToBounds(INDIA_BOUNDS, { padding: [0, 0], duration: 0.8 });
     });
 
     // Close popup on bare map click
