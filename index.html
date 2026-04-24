@@ -29,6 +29,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Noto+Serif+Devanagari:wght@400;500&display=swap" rel="stylesheet">
 
+<!-- Leaflet (accurate 2D map) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -225,6 +228,98 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
   .hero-btns{flex-direction:column;align-items:stretch}
   .hero-btns .btn-p,.hero-btns .btn-s{text-align:center;justify-content:center}
 }
+
+/* ── SITES ── */
+.sites-meta{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:-8px;margin-bottom:28px;font-size:12.5px;color:var(--tx2);letter-spacing:.04em}
+.sites-meta b{font-family:'Cormorant Garant',serif;font-weight:500;font-size:22px;color:var(--tx);margin-right:6px;letter-spacing:-.01em}
+.sites-stage{display:grid;grid-template-columns:380px 1fr;gap:20px;max-width:1300px;margin:0 auto;align-items:stretch}
+.sites-side{background:#fff;border:1px solid var(--bd);border-radius:var(--rl);display:flex;flex-direction:column;overflow:hidden;min-height:560px;max-height:640px;box-shadow:var(--sh)}
+.sites-side-hd{padding:18px 20px 14px;border-bottom:1px solid var(--bd);background:linear-gradient(to bottom,#fff,oklch(98% 0.008 75))}
+.sites-side-title{font-family:'Cormorant Garant',serif;font-size:19px;font-weight:500;color:var(--tx);line-height:1.2;margin-bottom:4px}
+.sites-side-count{font-size:11.5px;color:var(--tx2);letter-spacing:.04em}
+.sites-side-count b{color:var(--sa);font-weight:500}
+.sites-filters{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px;border-bottom:1px solid var(--bd);background:var(--bg-warm)}
+.sites-chip{font-size:11.5px;font-weight:500;color:var(--tx2);background:#fff;border:1px solid var(--bd);padding:5px 11px;border-radius:14px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:6px;font-family:inherit}
+.sites-chip .sd{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.sites-chip:hover{border-color:var(--bd2);color:var(--tx)}
+.sites-chip.active{background:var(--sa-dim);border-color:var(--sa);color:var(--tx)}
+.sites-chip.off{opacity:.45;background:transparent}
+.sites-list{flex:1;overflow-y:auto;padding:4px 0}
+.sites-row{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px solid oklch(94% 0.008 75);cursor:pointer;transition:background .15s;font-size:13px}
+.sites-row:hover{background:var(--bg-warm)}
+.sites-row.selected{background:var(--sa-dim)}
+.sites-row-num{font-family:'Cormorant Garant',serif;font-size:15px;color:var(--tx3);min-width:22px;text-align:right;font-variant-numeric:tabular-nums}
+.sites-row-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.sites-row-body{flex:1;line-height:1.35;min-width:0}
+.sites-row-name{font-size:12.5px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sites-row-loc{font-size:11px;color:var(--tx2);margin-top:1px}
+.sites-list::-webkit-scrollbar{width:4px}
+.sites-list::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+
+.sites-map-wrap{position:relative;border-radius:var(--rl);overflow:hidden;border:1px solid var(--bd);min-height:560px;height:100%;background:var(--bg-warm);box-shadow:var(--sh)}
+#sitesMap{position:absolute;inset:0}
+.sites-map-wrap::after{content:'';position:absolute;inset:0;border-radius:var(--rl);pointer-events:none;box-shadow:inset 0 0 40px oklch(18% 0.015 255 / 0.04)}
+.sites-legend{position:absolute;bottom:16px;left:16px;background:oklch(100% 0 0 / 0.96);backdrop-filter:blur(8px);border:1px solid var(--bd);border-radius:var(--r);padding:11px 14px;font-size:11.5px;color:var(--tx);box-shadow:var(--sh);z-index:2;line-height:1.6}
+.sites-legend-title{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--sa);font-weight:500;margin-bottom:6px}
+.sites-legend-row{display:flex;align-items:center;gap:8px;font-weight:400}
+.sites-legend-row .sd{width:9px;height:9px;border-radius:50%}
+
+/* Leaflet pin — tip-anchored teardrop, no number */
+.sites-pin{position:relative;width:26px;height:34px;cursor:pointer;background:transparent}
+.sites-pin svg{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(15,23,42,.22));transition:transform .22s cubic-bezier(.4,0,.2,1);transform-origin:50% 100%}
+.sites-pin:hover svg{transform:translateY(-2px) scale(1.08)}
+.sites-pin.selected svg{transform:translateY(-3px) scale(1.18)}
+
+.sites-tooltip{background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:11px 14px;max-width:260px;font-size:12px;color:var(--tx);line-height:1.5;min-width:200px}
+.sites-tooltip-name{font-family:'Cormorant Garant',serif;font-weight:500;font-size:16px;color:var(--tx);margin-bottom:4px;letter-spacing:-.005em;line-height:1.25}
+.sites-tooltip-loc{font-size:11.5px;color:var(--tx2);margin-bottom:8px}
+.sites-tooltip-status{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;color:var(--tx);padding:3px 8px;border-radius:4px;background:var(--bg-warm)}
+.sites-tooltip-status .sd{width:8px;height:8px;border-radius:50%}
+.sites-tooltip-coords{font-size:10.5px;color:var(--tx3);margin-top:8px;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+/* Leaflet overrides to match site theme */
+.leaflet-popup-content-wrapper{border-radius:var(--r);box-shadow:var(--sh2);padding:0;background:#fff;border:1px solid var(--bd)}
+.leaflet-popup-content{margin:0;padding:0;font:inherit}
+.leaflet-popup-tip{box-shadow:0 3px 6px rgba(15,23,42,.08)}
+.leaflet-popup-close-button{color:var(--tx3) !important;padding:8px 10px !important;font-size:18px !important}
+.leaflet-popup-close-button:hover{color:var(--tx) !important;background:transparent !important}
+.leaflet-control-attribution{font-family:inherit !important;font-size:10px !important;background:oklch(100% 0 0 / 0.8) !important;color:var(--tx2) !important}
+.leaflet-control-attribution a{color:var(--tx) !important;text-decoration:none !important}
+.leaflet-control-zoom{border:none !important;box-shadow:var(--sh) !important;border-radius:var(--r) !important;overflow:hidden}
+.leaflet-control-zoom a{background:#fff !important;color:var(--tx2) !important;border:none !important;border-bottom:1px solid var(--bd) !important;font-family:inherit !important;font-weight:400 !important}
+.leaflet-control-zoom a:last-child{border-bottom:none !important}
+.leaflet-control-zoom a:hover{color:var(--sa) !important;background:var(--bg-warm) !important}
+.leaflet-container{background:var(--bg-warm) !important;font-family:'DM Sans',sans-serif !important}
+
+.sites-reset{position:absolute;top:14px;right:14px;background:#fff;border:1px solid var(--bd);border-radius:var(--r);padding:8px 14px;font-size:12px;font-weight:500;color:var(--tx);cursor:pointer;transition:.18s;box-shadow:var(--sh);z-index:1001;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.sites-reset:hover{color:var(--sa);border-color:var(--sa);transform:translateY(-1px);box-shadow:0 3px 14px oklch(72% 0.19 52 / 0.22)}
+.sites-reset svg{width:13px;height:13px;display:block}
+
+/* Brand wordmark inside section headings — matches nav "Chākṣu[AI]" */
+.sec-title .ai,.sec-sub .ai{color:var(--sa)}
+.sec-sub .chaksu-mark{color:var(--tx);font-weight:500}
+
+.sites-funding{max-width:1300px;margin:48px auto 0;padding:26px clamp(24px,4vw,48px);background:#fff;border:1px solid var(--bd);border-radius:var(--rl);display:flex;align-items:center;justify-content:center;gap:clamp(24px,5vw,56px);flex-wrap:wrap}
+.sites-funding-label{font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--tx3);padding-right:8px;border-right:1px solid var(--bd);white-space:nowrap}
+.sites-funding-logos{display:flex;align-items:center;gap:clamp(24px,4vw,48px);flex-wrap:wrap;justify-content:center}
+.sites-funding-logo{display:flex;align-items:center;gap:10px;opacity:.9;transition:.2s}
+.sites-funding-logo:hover{opacity:1;transform:translateY(-2px)}
+.sites-funding-logo img{height:44px;width:auto;filter:saturate(.95);display:block}
+.sites-funding-logo span{font-size:11px;color:var(--tx2);font-weight:500;letter-spacing:.03em;max-width:130px;line-height:1.35}
+
+@media(max-width:960px){
+  .sites-stage{grid-template-columns:1fr;gap:16px}
+  .sites-side{max-height:340px;min-height:340px;order:2}
+  .sites-map-wrap{min-height:440px;order:1}
+  .sites-funding{flex-direction:column;gap:16px;margin-top:32px}
+  .sites-funding-label{border-right:none;border-bottom:1px solid var(--bd);padding:0 0 12px}
+}
+@media(max-width:480px){
+  .sites-meta{gap:16px;font-size:12px}
+  .sites-meta b{font-size:18px}
+  .sites-map-wrap{min-height:360px}
+  .sites-funding-logo img{height:36px}
+}
 </style>
 </head>
 <body>
@@ -240,6 +335,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     <a class="nav-a" href="#how-it-works">How It Works</a>
     <a class="nav-a" href="#news">News</a>
     <a class="nav-a" href="#team">Team</a>
+    <a class="nav-a" href="#sites">Sites</a>
     <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
   </div>
   <button class="nav-menu-btn" id="navMenuBtn" aria-label="Toggle navigation" aria-expanded="false">
@@ -251,6 +347,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
   <a class="nav-a" href="#how-it-works">How It Works</a>
   <a class="nav-a" href="#news">News</a>
   <a class="nav-a" href="#team">Team</a>
+  <a class="nav-a" href="#sites">Sites</a>
   <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
 </div>
 
@@ -357,6 +454,60 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     <p class="sec-sub">Researchers and specialists from IISc Bengaluru, working to bring AI-powered vision care to every corner of India.</p>
   </div>
   <div class="team-grid" id="teamGrid"></div>
+</section>
+
+<!-- ── SITES ── -->
+<section class="sec" id="sites">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Network</span>
+    <h2 class="sec-title">National Footprint of Chākṣu<span class="ai">AI</span></h2>
+    <p class="sec-sub">Partner hospitals, eye-care centres and research institutions across India collaborating with <span class="chaksu-mark">Chākṣu<span class="ai">AI</span></span>.</p>
+  </div>
+  <div class="sites-meta rv">
+    <span><b id="sitesCountNum">—</b> sites</span>
+    <span><b id="sitesStateNum">—</b> states</span>
+    <span><b id="sitesSignedNum">—</b> MoA signed</span>
+  </div>
+  <div class="sites-stage rv">
+    <aside class="sites-side">
+      <div class="sites-side-hd">
+        <div class="sites-side-title">Sites Directory</div>
+        <div class="sites-side-count"><b id="sitesVisibleNum">—</b> visible · click to zoom</div>
+      </div>
+      <div class="sites-filters" id="sitesFilters">
+        <button class="sites-chip active" data-status="signed"><span class="sd" style="background:oklch(56% 0.14 150)"></span>Signed</button>
+        <button class="sites-chip active" data-status="process"><span class="sd" style="background:oklch(55% 0.13 235)"></span>In process</button>
+        <button class="sites-chip active" data-status="negotiation"><span class="sd" style="background:var(--sa)"></span>Negotiating</button>
+      </div>
+      <div class="sites-list" id="sitesList"></div>
+    </aside>
+    <div class="sites-map-wrap">
+      <div id="sitesMap" role="region" aria-label="Interactive map of ChākṣuAI clinical sites across India"></div>
+      <button class="sites-reset" id="sitesReset" type="button" aria-label="Reset map view">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2a6 6 0 1 0 5.2 3M13 2v3h-3"/></svg>
+        Reset view
+      </button>
+      <div class="sites-legend" aria-hidden="true">
+        <div class="sites-legend-title">Status</div>
+        <div class="sites-legend-row"><span class="sd" style="background:oklch(56% 0.14 150)"></span>MoA signed</div>
+        <div class="sites-legend-row"><span class="sd" style="background:oklch(55% 0.13 235)"></span>MoA in process</div>
+        <div class="sites-legend-row"><span class="sd" style="background:var(--sa)"></span>In negotiation</div>
+      </div>
+    </div>
+  </div>
+  <div class="sites-funding rv" aria-label="Funding and institutional support">
+    <span class="sites-funding-label">Our Funding Partners</span>
+    <div class="sites-funding-logos">
+      <div class="sites-funding-logo" title="Ministry of Education, Government of India">
+        <img src="assets/sites/moe.png" alt="Ministry of Education, Government of India">
+        <span>Ministry of Education</span>
+      </div>
+      <div class="sites-funding-logo" title="TanuH">
+        <img src="assets/sites/tanuh.webp" alt="TanuH">
+        <span>TanuH</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ── FOOTER ── -->
@@ -683,6 +834,296 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     syncMuteIcon();
     syncPlayIcon();
   }
+})();
+</script>
+
+<!-- Leaflet + PapaParse (loaded deferred; Sites map) -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js" defer></script>
+
+<script>
+// ── SITES · Accurate 2D India map (Leaflet + PapaParse) ──
+(function(){
+  'use strict';
+
+  const CSV_URL = 'assets/sites/centers.csv';
+  // Lock panning inside India so the section only ever shows India.
+  const INDIA_BOUNDS = [[6.5, 68.0], [37.0, 98.0]];
+  const HARD_BOUNDS  = [[4.0, 65.0], [39.0, 100.0]];  // panning guard
+  const BRAND        = '#2c3e50';
+
+  const STATUS = {
+    signed:      { label:'MoA signed',     color:'oklch(56% 0.14 150)' },
+    process:     { label:'MoA in process', color:'oklch(55% 0.13 235)' },
+    negotiation: { label:'In negotiation', color:'oklch(72% 0.19 52)'  }
+  };
+  function statusKey(raw){
+    const s = String(raw || '').toLowerCase();
+    if (s.includes('sign')) return 'signed';
+    if (s.includes('proc')) return 'process';
+    return 'negotiation';
+  }
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, ch =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
+  }
+
+  // Custom SVG pin — tip-anchored, status-accent inner dot, no number.
+  function buildPinIcon(statusK, uid){
+    const accent = STATUS[statusK].color;
+    const html =
+      '<div class="sites-pin" aria-hidden="true">' +
+        '<svg viewBox="0 0 26 34" xmlns="http://www.w3.org/2000/svg">' +
+          '<path d="M13 0 C5.8 0 0 5.8 0 13 C0 23 13 34 13 34 S26 23 26 13 C26 5.8 20.2 0 13 0 Z" ' +
+                'fill="' + BRAND + '" stroke="#ffffff" stroke-width="1.5"/>' +
+          '<circle cx="13" cy="13" r="4.2" fill="' + accent + '" stroke="#ffffff" stroke-width="1.1"/>' +
+        '</svg>' +
+      '</div>';
+    return L.divIcon({
+      className: 'sites-pin-wrap',
+      html: html,
+      iconSize:   [26, 34],
+      iconAnchor: [13, 34],      // pin tip → (lat, lng)
+      popupAnchor: [0, -30]
+    });
+  }
+
+  const mapEl = document.getElementById('sitesMap');
+  if (!mapEl) return;
+
+  function boot(){
+    if (typeof L === 'undefined' || typeof Papa === 'undefined'){
+      setTimeout(boot, 80);
+      return;
+    }
+
+    const map = L.map(mapEl, {
+      zoomControl: true,
+      zoomSnap: 0.25,
+      minZoom: 4,
+      maxZoom: 12,
+      maxBounds: HARD_BOUNDS,
+      maxBoundsViscosity: 1.0,
+      scrollWheelZoom: false,
+      attributionControl: true
+    }).fitBounds(INDIA_BOUNDS);
+
+    // Let the user wheel-zoom only after they click the map (standard web page pattern).
+    map.once('focus', function(){ map.scrollWheelZoom.enable(); });
+    map.on('click', function(){ map.scrollWheelZoom.enable(); });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    }).addTo(map);
+
+    // Parse CSV + render everything
+    Papa.parse(CSV_URL, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      dynamicTyping: false,
+      complete: function(result){
+        const sites = result.data.map(function(r){
+          const keys = Object.keys(r);
+          const get = function(needle){
+            const match = keys.find(function(kk){
+              return kk && kk.toLowerCase().replace(/[^a-z]/g,'').indexOf(needle) >= 0;
+            });
+            return match ? String(r[match] || '').trim() : '';
+          };
+          const lat = parseFloat(get('lat'));
+          const lngKey = keys.find(function(kk){ return /lon|lng/.test(kk.toLowerCase()); });
+          const lng = parseFloat(lngKey ? r[lngKey] : '');
+          return {
+            name:      get('name') || get('center'),
+            city:      get('city'),
+            state:     get('state'),
+            lat:       lat,
+            lng:       lng,
+            statusRaw: get('status'),
+            status:    statusKey(get('status'))
+          };
+        }).filter(function(s){ return s.name && !isNaN(s.lat) && !isNaN(s.lng); });
+
+        render(sites, map);
+      },
+      error: function(err){
+        console.error('Sites CSV failed to load:', err);
+        mapEl.innerHTML = '<div style="padding:32px;text-align:center;color:var(--tx2);font-size:13px">Unable to load site data.</div>';
+      }
+    });
+  }
+
+  function render(sites, map){
+    const listEl     = document.getElementById('sitesList');
+    const filtersEl  = document.getElementById('sitesFilters');
+    const resetBtn   = document.getElementById('sitesReset');
+    const countNum   = document.getElementById('sitesCountNum');
+    const stateNum   = document.getElementById('sitesStateNum');
+    const signedNum  = document.getElementById('sitesSignedNum');
+    const visibleNum = document.getElementById('sitesVisibleNum');
+
+    const active  = new Set(['signed', 'process', 'negotiation']);
+    const markers = [];
+    const rows    = [];
+    const group   = L.featureGroup().addTo(map);
+    let selectedIdx = -1;
+
+    // Build markers at exact [lat, lng].
+    sites.forEach(function(s, i){
+      const icon = buildPinIcon(s.status, i);
+      const marker = L.marker([s.lat, s.lng], { icon: icon, riseOnHover: true });
+
+      const popupHtml =
+        '<div class="sites-tooltip">' +
+          '<div class="sites-tooltip-name">' + esc(s.name) + '</div>' +
+          '<div class="sites-tooltip-loc">' + esc(s.city) + (s.state ? ', ' + esc(s.state) : '') + '</div>' +
+          '<div class="sites-tooltip-status"><span class="sd" style="background:' + STATUS[s.status].color + '"></span>' + STATUS[s.status].label + '</div>' +
+          '<div class="sites-tooltip-coords">' + s.lat.toFixed(4) + '° N · ' + s.lng.toFixed(4) + '° E</div>' +
+        '</div>';
+      marker.bindPopup(popupHtml, { closeButton: true, autoPan: true, maxWidth: 300, className: 'sites-popup' });
+      marker.on('click', function(){ selectSite(i, false); });
+      marker.addTo(group);
+      markers.push(marker);
+    });
+
+    // Fit marker bounds so all points are visible, centred.
+    if (markers.length){
+      map.fitBounds(group.getBounds(), { padding: [40, 40], maxZoom: 6 });
+    } else {
+      map.fitBounds(INDIA_BOUNDS);
+    }
+
+    // Aggregate stats
+    const states = new Set(sites.map(function(s){ return s.state; }).filter(Boolean));
+    countNum.textContent  = sites.length;
+    stateNum.textContent  = states.size;
+    signedNum.textContent = sites.filter(function(s){ return s.status === 'signed'; }).length;
+
+    function renderList(){
+      listEl.innerHTML = '';
+      let visible = 0;
+      sites.forEach(function(s, i){
+        const isActive = active.has(s.status);
+        // Show/hide marker element via its Leaflet icon container.
+        const iconEl = markers[i].getElement();
+        if (iconEl) iconEl.style.display = isActive ? '' : 'none';
+        if (!isActive) return;
+        visible++;
+        const row = document.createElement('div');
+        row.className = 'sites-row';
+        row.dataset.idx = i;
+        row.innerHTML =
+          '<span class="sites-row-num">' + String(visible).padStart(2,'0') + '</span>' +
+          '<span class="sites-row-dot" style="background:' + STATUS[s.status].color + '"></span>' +
+          '<div class="sites-row-body">' +
+            '<div class="sites-row-name">' + esc(s.name) + '</div>' +
+            '<div class="sites-row-loc">' + esc(s.city) + (s.state ? ' · ' + esc(s.state) : '') + '</div>' +
+          '</div>';
+        row.addEventListener('mouseenter', function(){ highlightMarker(i, true); });
+        row.addEventListener('mouseleave', function(){ if (selectedIdx !== i) highlightMarker(i, false); });
+        row.addEventListener('click', function(){ selectSite(i, true); });
+        listEl.appendChild(row);
+        rows[i] = row;
+      });
+      visibleNum.textContent = visible;
+    }
+
+    function highlightMarker(i, on){
+      const el = markers[i] && markers[i].getElement();
+      if (!el) return;
+      const inner = el.querySelector('.sites-pin');
+      if (inner) inner.classList.toggle('selected', on);
+    }
+
+    function selectSite(i, fly){
+      if (selectedIdx >= 0) highlightMarker(selectedIdx, false);
+      selectedIdx = i;
+      highlightMarker(i, true);
+      // Sync list selection
+      listEl.querySelectorAll('.sites-row').forEach(function(r){
+        r.classList.toggle('selected', +r.dataset.idx === i);
+      });
+      const matchRow = listEl.querySelector('.sites-row.selected');
+      if (matchRow) matchRow.scrollIntoView({ behavior:'smooth', block:'nearest' });
+
+      const s = sites[i];
+      if (fly){
+        // Accurate flyTo using Leaflet's [lat, lng] order.
+        map.flyTo([s.lat, s.lng], Math.max(map.getZoom(), 7), { duration: 0.9, easeLinearity: 0.25 });
+        setTimeout(function(){ markers[i].openPopup(); }, 950);
+      } else {
+        markers[i].openPopup();
+      }
+    }
+
+    // Filter chips
+    filtersEl.querySelectorAll('.sites-chip').forEach(function(chip){
+      chip.addEventListener('click', function(){
+        const k = chip.dataset.status;
+        if (active.has(k)){
+          if (active.size === 1) return;  // keep at least one on
+          active.delete(k);
+          chip.classList.remove('active');
+          chip.classList.add('off');
+        } else {
+          active.add(k);
+          chip.classList.add('active');
+          chip.classList.remove('off');
+        }
+        if (selectedIdx >= 0 && !active.has(sites[selectedIdx].status)){
+          map.closePopup();
+          selectedIdx = -1;
+        }
+        rows.length = 0;
+        renderList();
+      });
+    });
+
+    // Reset view
+    resetBtn.addEventListener('click', function(){
+      if (selectedIdx >= 0) highlightMarker(selectedIdx, false);
+      selectedIdx = -1;
+      map.closePopup();
+      listEl.querySelectorAll('.sites-row').forEach(function(r){ r.classList.remove('selected'); });
+      // Fit to marker bounds (tight on data) rather than all of India.
+      const grp = group.getBounds();
+      if (grp.isValid()) map.flyToBounds(grp, { padding: [40, 40], maxZoom: 6, duration: 0.8 });
+      else map.flyToBounds(INDIA_BOUNDS, { duration: 0.8 });
+    });
+
+    // Close popup on bare map click
+    map.on('popupclose', function(){
+      if (selectedIdx >= 0) highlightMarker(selectedIdx, false);
+      selectedIdx = -1;
+      listEl.querySelectorAll('.sites-row').forEach(function(r){ r.classList.remove('selected'); });
+    });
+
+    renderList();
+
+    // Staggered reveal — fade markers in one by one.
+    markers.forEach(function(m, i){
+      const el = m.getElement();
+      if (!el) return;
+      el.style.opacity = '0';
+      el.style.transition = 'opacity .45s ease';
+      setTimeout(function(){ el.style.opacity = ''; }, 300 + i * 28);
+    });
+  }
+
+  // Defer boot until the Sites section is near the viewport.
+  const section = document.getElementById('sites');
+  if (!section) return;
+  const primeObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      primeObserver.disconnect();
+      boot();
+    });
+  }, { rootMargin: '400px' });
+  primeObserver.observe(section);
 })();
 </script>
 

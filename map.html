@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChākṣuAI — Clinical Sites</title>
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<!-- PapaParse -->
+<script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --slate-900:#0f172a;
+    --slate-800:#1e293b;
+    --slate-700:#334155;
+    --slate-600:#475569;
+    --slate-500:#64748b;
+    --slate-400:#94a3b8;
+    --slate-300:#cbd5e1;
+    --slate-200:#e2e8f0;
+    --slate-100:#f1f5f9;
+    --slate-50:#f8fafc;
+    --brand:#2c3e50;
+    --brand-hover:#1f2d3d;
+    --accent-signed:#16a34a;
+    --accent-process:#2563eb;
+    --accent-negotiation:#ea580c;
+    --r:6px;
+    --rl:10px;
+    --sh:0 1px 2px rgba(15,23,42,.06), 0 4px 14px rgba(15,23,42,.08);
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter','Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--slate-50);
+    color:var(--slate-900);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+
+  .shell{display:flex;height:100vh;width:100vw}
+
+  /* ── SIDEBAR ── */
+  .side{
+    width:360px;flex-shrink:0;
+    background:#fff;
+    border-right:1px solid var(--slate-200);
+    display:flex;flex-direction:column;
+    box-shadow:1px 0 3px rgba(15,23,42,.04);
+    z-index:2;
+  }
+  .side-hd{
+    padding:20px 22px 16px;
+    border-bottom:1px solid var(--slate-200);
+    background:linear-gradient(to bottom,#fff,var(--slate-50));
+  }
+  .side-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .side-brand img{width:28px;height:28px;object-fit:contain}
+  .side-brand-name{font-weight:600;font-size:15px;color:var(--brand);letter-spacing:-.01em}
+  .side-brand-name span{color:var(--slate-500);font-weight:400}
+  .side-title{font-size:20px;font-weight:600;color:var(--slate-900);letter-spacing:-.015em;margin-bottom:4px}
+  .side-sub{font-size:12.5px;color:var(--slate-500);font-weight:400}
+  .side-sub b{color:var(--brand);font-weight:600}
+
+  .side-search{
+    padding:12px 18px;
+    border-bottom:1px solid var(--slate-200);
+    background:var(--slate-50);
+  }
+  .side-search input{
+    width:100%;
+    padding:8px 12px;
+    border:1px solid var(--slate-200);
+    border-radius:var(--r);
+    background:#fff;
+    font:inherit;
+    font-size:13px;
+    color:var(--slate-900);
+    outline:none;
+    transition:border-color .15s,box-shadow .15s;
+  }
+  .side-search input::placeholder{color:var(--slate-400)}
+  .side-search input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(44,62,80,.08)}
+
+  .side-list{flex:1;overflow-y:auto;padding:6px 0}
+  .side-list::-webkit-scrollbar{width:6px}
+  .side-list::-webkit-scrollbar-track{background:transparent}
+  .side-list::-webkit-scrollbar-thumb{background:var(--slate-200);border-radius:3px}
+  .side-list::-webkit-scrollbar-thumb:hover{background:var(--slate-300)}
+
+  .row{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 20px;
+    border-bottom:1px solid var(--slate-100);
+    cursor:pointer;
+    transition:background .12s;
+  }
+  .row:hover{background:var(--slate-50)}
+  .row.sel{background:rgba(44,62,80,.06);border-left:3px solid var(--brand);padding-left:17px}
+  .row-num{
+    font-size:11px;font-weight:500;color:var(--slate-400);
+    min-width:22px;text-align:right;font-variant-numeric:tabular-nums
+  }
+  .row-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .row-body{flex:1;min-width:0}
+  .row-name{
+    font-size:13px;font-weight:500;color:var(--slate-900);
+    line-height:1.3;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    margin-bottom:1px;
+  }
+  .row-meta{font-size:11px;color:var(--slate-500)}
+
+  .side-ft{
+    padding:12px 18px;
+    border-top:1px solid var(--slate-200);
+    background:var(--slate-50);
+    font-size:11px;color:var(--slate-500);
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .side-ft a{color:var(--brand);text-decoration:none;font-weight:500}
+  .side-ft a:hover{text-decoration:underline}
+
+  /* ── MAP ── */
+  .map-wrap{flex:1;position:relative}
+  #map{position:absolute;inset:0;background:var(--slate-100)}
+
+  /* Header bar floating over map */
+  .map-bar{
+    position:absolute;top:16px;left:16px;
+    background:#fff;padding:10px 16px;border-radius:var(--r);
+    box-shadow:var(--sh);z-index:600;
+    display:flex;align-items:center;gap:12px;
+    font-size:13px;color:var(--slate-700);
+  }
+  .map-bar-stat{display:flex;align-items:center;gap:6px}
+  .map-bar-stat b{color:var(--slate-900);font-weight:600}
+  .map-bar-sep{width:1px;height:16px;background:var(--slate-200)}
+
+  /* Legend */
+  .legend{
+    position:absolute;bottom:22px;left:16px;
+    background:#fff;padding:12px 14px;border-radius:var(--r);
+    box-shadow:var(--sh);z-index:600;
+    font-size:12px;color:var(--slate-700);
+  }
+  .legend-title{
+    font-size:10.5px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--slate-500);margin-bottom:8px;
+  }
+  .legend-row{display:flex;align-items:center;gap:8px;padding:3px 0}
+  .legend-row .d{width:10px;height:10px;border-radius:50%}
+
+  /* Reset control */
+  .reset-btn{
+    position:absolute;top:16px;right:16px;
+    background:#fff;padding:8px 14px;border-radius:var(--r);
+    box-shadow:var(--sh);z-index:600;border:none;cursor:pointer;
+    font:inherit;font-size:12.5px;font-weight:500;color:var(--slate-700);
+    display:inline-flex;align-items:center;gap:6px;
+    transition:.15s;
+  }
+  .reset-btn:hover{color:var(--brand);transform:translateY(-1px)}
+  .reset-btn svg{width:13px;height:13px}
+
+  /* Custom pin icon */
+  .pin{position:relative;width:30px;height:38px;pointer-events:auto}
+  .pin svg{display:block;width:100%;height:100%;filter:drop-shadow(0 2px 4px rgba(15,23,42,.25))}
+  .pin-num{
+    position:absolute;top:7px;left:0;right:0;
+    text-align:center;
+    font-family:'Inter',sans-serif;font-size:11px;font-weight:700;color:#fff;
+    line-height:1;
+    pointer-events:none;
+  }
+  .pin-pulse{
+    position:absolute;top:25px;left:50%;transform:translateX(-50%);
+    width:14px;height:14px;border-radius:50%;
+    background:rgba(44,62,80,.3);
+    animation:pinPulse 1.6s cubic-bezier(.4,0,.6,1) infinite;
+    pointer-events:none;
+  }
+  @keyframes pinPulse{
+    0%{transform:translate(-50%,0) scale(.6);opacity:.6}
+    100%{transform:translate(-50%,0) scale(2.2);opacity:0}
+  }
+
+  /* Leaflet popup override */
+  .leaflet-popup-content-wrapper{
+    border-radius:var(--r);
+    box-shadow:var(--sh);
+    padding:0;
+    background:#fff;
+  }
+  .leaflet-popup-content{margin:0;padding:0;font:inherit}
+  .leaflet-popup-tip{box-shadow:0 3px 6px rgba(15,23,42,.1)}
+  .pop{padding:14px 16px;min-width:220px;max-width:280px}
+  .pop-name{
+    font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
+    color:var(--slate-900);line-height:1.35;margin-bottom:4px;
+    letter-spacing:-.005em;
+  }
+  .pop-meta{
+    font-size:12px;color:var(--slate-500);margin-bottom:10px;
+  }
+  .pop-status{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:10.5px;font-weight:600;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--slate-700);
+    padding:4px 8px;border-radius:4px;background:var(--slate-100);
+  }
+  .pop-status .d{width:7px;height:7px;border-radius:50%}
+  .pop-coords{
+    font-size:10.5px;color:var(--slate-400);margin-top:8px;
+    font-variant-numeric:tabular-nums;letter-spacing:.02em;
+  }
+
+  /* Leaflet attribution */
+  .leaflet-control-attribution{
+    font-family:inherit !important;font-size:10px !important;
+    background:rgba(255,255,255,.85) !important;
+    color:var(--slate-500) !important;
+  }
+  .leaflet-control-attribution a{color:var(--slate-600) !important}
+  .leaflet-control-zoom a{
+    background:#fff !important;color:var(--slate-700) !important;
+    border:1px solid var(--slate-200) !important;
+  }
+  .leaflet-control-zoom a:hover{color:var(--brand) !important}
+
+  /* Loading state */
+  .loading{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--slate-50);
+    z-index:500;
+    transition:opacity .3s;
+  }
+  .loading.hide{opacity:0;pointer-events:none}
+  .loading-text{
+    font-size:12px;color:var(--slate-500);letter-spacing:.06em;
+    text-transform:uppercase;font-weight:500;
+  }
+
+  /* Responsive */
+  @media(max-width:840px){
+    .shell{flex-direction:column}
+    .side{width:100%;height:280px;border-right:none;border-bottom:1px solid var(--slate-200)}
+    .map-wrap{flex:1}
+  }
+  @media(max-width:480px){
+    .map-bar{font-size:11.5px;padding:8px 12px;gap:8px}
+    .legend{font-size:11px;padding:10px 12px}
+  }
+</style>
+</head>
+
+<body>
+
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="side">
+    <div class="side-hd">
+      <div class="side-brand">
+        <img src="assets/images/chaksuai.png" alt="ChākṣuAI" onerror="this.style.display='none'">
+        <div class="side-brand-name">ChākṣuAI<span> · Clinical Network</span></div>
+      </div>
+      <div class="side-title">Our Clinical Sites</div>
+      <div class="side-sub"><b id="statCount">—</b> sites · <b id="statStates">—</b> states</div>
+    </div>
+
+    <div class="side-search">
+      <input type="text" id="search" placeholder="Search sites by name, city, or state…" aria-label="Search sites">
+    </div>
+
+    <div class="side-list" id="list" role="listbox" aria-label="Clinical sites directory"></div>
+
+    <div class="side-ft">
+      <span>Click a site to zoom</span>
+      <a href="index.html">← Back to home</a>
+    </div>
+  </aside>
+
+  <!-- ── MAP ── -->
+  <div class="map-wrap">
+    <div class="map-bar">
+      <div class="map-bar-stat"><b id="mCount">—</b> visible</div>
+      <div class="map-bar-sep"></div>
+      <div class="map-bar-stat"><span class="d" style="width:8px;height:8px;border-radius:50%;background:var(--accent-signed);display:inline-block"></span><b id="mSigned">—</b> signed</div>
+    </div>
+
+    <button class="reset-btn" id="reset" type="button" aria-label="Reset map view">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M8 2a6 6 0 1 0 5.2 3M13 2v3h-3"/>
+      </svg>
+      Reset view
+    </button>
+
+    <div class="legend" aria-hidden="true">
+      <div class="legend-title">Status</div>
+      <div class="legend-row"><span class="d" style="background:var(--accent-signed)"></span>MoA signed</div>
+      <div class="legend-row"><span class="d" style="background:var(--accent-process)"></span>MoA in process</div>
+      <div class="legend-row"><span class="d" style="background:var(--accent-negotiation)"></span>In negotiation</div>
+    </div>
+
+    <div class="loading" id="loading"><span class="loading-text">Loading sites…</span></div>
+    <div id="map" role="img" aria-label="Interactive 2D map of ChākṣuAI clinical sites across India"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── Constants ──
+  const CSV_URL = 'assets/sites/centers.csv';
+  const INDIA_BOUNDS = L.latLngBounds([[6.5, 68.0], [37.0, 98.0]]);
+  const BRAND = '#2c3e50';
+  const STATUS_COLOR = {
+    signed:      '#16a34a',
+    process:     '#2563eb',
+    negotiation: '#ea580c'
+  };
+  const STATUS_LABEL = {
+    signed:      'MoA signed',
+    process:     'MoA in process',
+    negotiation: 'In negotiation'
+  };
+
+  function statusKey(raw){
+    const s = String(raw || '').toLowerCase();
+    if (s.includes('sign')) return 'signed';
+    if (s.includes('proc')) return 'process';
+    return 'negotiation';
+  }
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, ch =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[ch]));
+  }
+
+  // ── Custom SVG pin icon (branded) ──
+  // A teardrop pin whose tip touches the anchor coordinate — this is what gives
+  // Leaflet its pixel-accurate marker placement.
+  function buildIcon(serial, statusK){
+    const accent = STATUS_COLOR[statusK];
+    // iconAnchor [15, 38] means the tip of the pin points to the lat/lng exactly.
+    const html = `
+      <div class="pin">
+        <svg viewBox="0 0 30 38" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="pinShadow${serial}" x="-20%" y="-10%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#0f172a" flood-opacity=".25"/>
+            </filter>
+          </defs>
+          <path d="M15 0 C6.7 0 0 6.7 0 15 C0 26 15 38 15 38 S30 26 30 15 C30 6.7 23.3 0 15 0 Z"
+                fill="${BRAND}" stroke="#ffffff" stroke-width="1.5" filter="url(#pinShadow${serial})"/>
+          <circle cx="15" cy="15" r="5" fill="${accent}" stroke="#ffffff" stroke-width="1.2"/>
+        </svg>
+        <div class="pin-num">${serial}</div>
+      </div>`;
+    return L.divIcon({
+      className: 'pin-icon',
+      html: html,
+      iconSize:   [30, 38],
+      iconAnchor: [15, 38],   // tip of pin anchors to lat/lng
+      popupAnchor: [0, -34]
+    });
+  }
+
+  // ── Leaflet map init ──
+  const map = L.map('map', {
+    zoomControl: true,
+    zoomSnap: 0.25,
+    minZoom: 4,
+    maxZoom: 12,
+    maxBounds: L.latLngBounds([[-5, 55], [45, 105]]),
+    maxBoundsViscosity: 0.7
+  }).fitBounds(INDIA_BOUNDS);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    subdomains: 'abcd',
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> · &copy; <a href="https://carto.com/attributions">CARTO</a>'
+  }).addTo(map);
+
+  // ── Load + parse CSV ──
+  Papa.parse(CSV_URL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    dynamicTyping: false,  // we parseFloat ourselves to guarantee types
+    complete: function(result){
+      const sites = result.data.map(function(r){
+        // tolerant column lookup — case / whitespace / punctuation insensitive
+        const keys = Object.keys(r);
+        const get = function(k){
+          const needle = k.toLowerCase();
+          const match = keys.find(function(kk){
+            return kk && kk.toLowerCase().replace(/[^a-z]/g,'').indexOf(needle) >= 0;
+          });
+          return match ? String(r[match]).trim() : '';
+        };
+        const lat = parseFloat(get('lat'));
+        const lngKey = keys.find(function(kk){ return /lon|lng/.test(kk.toLowerCase()); });
+        const lng = parseFloat(lngKey ? r[lngKey] : '');
+        return {
+          name:   get('name') || get('center'),
+          city:   get('city'),
+          state:  get('state'),
+          lat:    lat,
+          lng:    lng,
+          statusRaw: get('status'),
+          status: statusKey(get('status'))
+        };
+      }).filter(function(s){
+        return s.name && !isNaN(s.lat) && !isNaN(s.lng);
+      });
+
+      renderAll(sites);
+    },
+    error: function(err){
+      document.getElementById('loading').innerHTML =
+        '<span class="loading-text" style="color:var(--accent-negotiation)">Failed to load site data.</span>';
+      console.error('Papa.parse failed:', err);
+    }
+  });
+
+  // ── Render everything ──
+  function renderAll(sites){
+    const listEl   = document.getElementById('list');
+    const searchEl = document.getElementById('search');
+    const resetBtn = document.getElementById('reset');
+    const statCount  = document.getElementById('statCount');
+    const statStates = document.getElementById('statStates');
+    const mCount     = document.getElementById('mCount');
+    const mSigned    = document.getElementById('mSigned');
+
+    const markers = [];
+    const rows = [];
+    const group = L.featureGroup().addTo(map);
+    let selectedIdx = -1;
+
+    sites.forEach(function(s, i){
+      const icon = buildIcon(i + 1, s.status);
+      const marker = L.marker([s.lat, s.lng], { icon: icon, riseOnHover: true });
+
+      const popupHtml =
+        '<div class="pop">' +
+          '<div class="pop-name">' + esc(s.name) + '</div>' +
+          '<div class="pop-meta">' + esc(s.city) + (s.state ? ', ' + esc(s.state) : '') + '</div>' +
+          '<div class="pop-status"><span class="d" style="background:' + STATUS_COLOR[s.status] + '"></span>' + STATUS_LABEL[s.status] + '</div>' +
+          '<div class="pop-coords">' + s.lat.toFixed(4) + '° N · ' + s.lng.toFixed(4) + '° E</div>' +
+        '</div>';
+
+      marker.bindPopup(popupHtml, { closeButton: true, autoPan: true, maxWidth: 300 });
+      marker.on('click', function(){ selectSite(i, false); });
+      marker.addTo(group);
+      markers.push(marker);
+    });
+
+    // Stats
+    const states = new Set(sites.map(function(s){ return s.state; }).filter(Boolean));
+    statCount.textContent  = sites.length;
+    statStates.textContent = states.size;
+    mCount.textContent     = sites.length;
+    mSigned.textContent    = sites.filter(function(s){ return s.status === 'signed'; }).length;
+
+    // Sidebar list
+    sites.forEach(function(s, i){
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.setAttribute('role', 'option');
+      row.dataset.idx = i;
+      row.innerHTML =
+        '<span class="row-num">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<span class="row-dot" style="background:' + STATUS_COLOR[s.status] + '"></span>' +
+        '<div class="row-body">' +
+          '<div class="row-name">' + esc(s.name) + '</div>' +
+          '<div class="row-meta">' + esc(s.city) + (s.state ? ' · ' + esc(s.state) : '') + '</div>' +
+        '</div>';
+      row.addEventListener('click', function(){ selectSite(i, true); });
+      listEl.appendChild(row);
+      rows.push(row);
+    });
+
+    function selectSite(i, fromList){
+      if (selectedIdx >= 0 && rows[selectedIdx]) rows[selectedIdx].classList.remove('sel');
+      selectedIdx = i;
+      if (rows[i]){
+        rows[i].classList.add('sel');
+        rows[i].scrollIntoView({ behavior:'smooth', block:'nearest' });
+      }
+      const s = sites[i];
+      // Accurate flyTo using [lat, lng] — Leaflet's native coord order.
+      map.flyTo([s.lat, s.lng], Math.max(map.getZoom(), 7), {
+        animate: true,
+        duration: 0.9,
+        easeLinearity: 0.2
+      });
+      // Open popup after the fly finishes so it anchors to the final position.
+      setTimeout(function(){ markers[i].openPopup(); }, 900);
+    }
+
+    // fitBounds on the marker group so all points are visible and centred.
+    if (markers.length){
+      map.fitBounds(group.getBounds(), { padding: [40, 40], maxZoom: 6 });
+    }
+
+    // Search filter
+    searchEl.addEventListener('input', function(){
+      const q = searchEl.value.trim().toLowerCase();
+      let shown = 0;
+      sites.forEach(function(s, i){
+        const hay = (s.name + ' ' + s.city + ' ' + s.state).toLowerCase();
+        const hit = !q || hay.indexOf(q) >= 0;
+        rows[i].style.display = hit ? '' : 'none';
+        const el = markers[i].getElement();
+        if (el) el.style.display = hit ? '' : 'none';
+        if (hit) shown++;
+      });
+      mCount.textContent = shown;
+    });
+
+    // Reset view
+    resetBtn.addEventListener('click', function(){
+      if (selectedIdx >= 0 && rows[selectedIdx]) rows[selectedIdx].classList.remove('sel');
+      selectedIdx = -1;
+      map.closePopup();
+      map.flyToBounds(group.getBounds(), { padding: [40, 40], maxZoom: 6, duration: 0.8 });
+    });
+
+    // Hide loader
+    const loader = document.getElementById('loading');
+    loader.classList.add('hide');
+    setTimeout(function(){ loader.remove(); }, 400);
+  }
+})();
+</script>
+
+</body>
+</html>
