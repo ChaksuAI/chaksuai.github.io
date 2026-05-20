@@ -336,6 +336,28 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
   .sites-map-wrap{min-height:360px}
   .sites-funding-logo img{height:36px}
 }
+
+/* ── PUBLICATIONS ── */
+.pub-bar{display:flex;gap:8px;flex-wrap:wrap;max-width:1100px;margin:0 auto 32px}
+.pub-chip{font-size:11.5px;font-weight:500;color:var(--tx2);background:#fff;border:1px solid var(--bd);padding:5px 13px;border-radius:14px;cursor:pointer;transition:.18s;font-family:inherit}
+.pub-chip:hover{border-color:var(--bd2);color:var(--tx)}
+.pub-chip.active{background:var(--sa-dim);border-color:var(--sa);color:var(--tx)}
+.pub-list{max-width:1100px;margin:0 auto}
+.pub-yr{font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:20px 0 8px;border-bottom:1px solid var(--bd)}
+.pub-yr:first-child{padding-top:0}
+.pub-card{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid var(--bd)}
+.pub-badge{flex-shrink:0;margin-top:3px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid;min-width:80px;text-align:center;line-height:1.6}
+.pub-badge.journal{color:var(--gr);border-color:var(--gr);background:var(--gr-light)}
+.pub-badge.conference{color:oklch(40% 0.18 260);border-color:oklch(70% 0.16 260);background:oklch(95% 0.05 260)}
+.pub-badge.preprint{color:oklch(46% 0.15 35);border-color:oklch(72% 0.14 35);background:oklch(96% 0.05 35)}
+.pub-body{flex:1}
+.pub-title{font-size:14.5px;font-weight:500;color:var(--tx);line-height:1.4;margin-bottom:5px}
+.pub-authors{font-size:12.5px;color:var(--tx2);margin-bottom:3px;line-height:1.5}
+.pub-venue{font-size:12.5px;color:var(--tx3);font-style:italic;margin-bottom:10px}
+.pub-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;font-size:12px;font-weight:500;border-radius:var(--r);border:1.5px solid var(--sa);color:var(--sa);background:transparent;text-decoration:none;transition:.15s;font-family:inherit}
+.pub-btn:hover{background:var(--sa);color:#fff}
+.pub-card.hidden,.pub-yr.hidden{display:none}
+@media(max-width:600px){.pub-card{flex-direction:column;gap:8px}.pub-badge{align-self:flex-start}}
 </style>
 </head>
 <body>
@@ -351,6 +373,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     <a class="nav-a" href="#how-it-works">How It Works</a>
     <a class="nav-a" href="#news">News</a>
     <a class="nav-a" href="#team">Team</a>
+    <a class="nav-a" href="#publications">Publications</a>
     <a class="nav-a" href="#sites">Sites</a>
     <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
   </div>
@@ -363,6 +386,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
   <a class="nav-a" href="#how-it-works">How It Works</a>
   <a class="nav-a" href="#news">News</a>
   <a class="nav-a" href="#team">Team</a>
+  <a class="nav-a" href="#publications">Publications</a>
   <a class="nav-a" href="#sites">Sites</a>
   <a class="nav-cta" href="https://chaksuai.ee.iisc.ac.in/accounts/login/">Try ChākṣuAI <span aria-hidden="true">↗</span></a>
 </div>
@@ -470,6 +494,22 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     <p class="sec-sub">Researchers and specialists from IISc Bengaluru, working to bring AI-powered vision care to every corner of India.</p>
   </div>
   <div class="team-grid" id="teamGrid"></div>
+</section>
+
+<!-- ── PUBLICATIONS ── -->
+<section class="sec" id="publications">
+  <div class="sec-hd rv">
+    <span class="sec-lbl">Research</span>
+    <h2 class="sec-title">Publications</h2>
+    <p class="sec-sub">Peer-reviewed research from the Spectrum Lab, IISc Bengaluru, on retinal imaging, glaucoma screening, and AI-assisted diagnostics.</p>
+  </div>
+  <div class="pub-bar rv" id="pubBar">
+    <button class="pub-chip active" data-filter="all">All</button>
+    <button class="pub-chip" data-filter="journal">Journal</button>
+    <button class="pub-chip" data-filter="conference">Conference</button>
+    <button class="pub-chip" data-filter="preprint">Preprint</button>
+  </div>
+  <div class="pub-list rv" id="pubList"></div>
 </section>
 
 <!-- ── SITES ── -->
@@ -735,6 +775,136 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
     });
     teamGrid.appendChild(card);
   });
+
+  // ── PUBLICATIONS ──
+  const PUBS = [
+    { title: 'Retinopathy Detection from Ultra-widefield Fundus Images',
+      authors: 'Monalisa Bakshi, Chandra Sekhar Seelamantula',
+      venue: 'Ultra-Widefield Fundus Imaging for Diabetic Retinopathy (UWF4DR), MICCAI 2024',
+      year: 2025, type: 'conference',
+      url: 'https://scholar.google.com/citations?view_op=view_citation&hl=en&user=1g1i1B4AAAAJ&cstart=200&pagesize=100&citation_for_view=1g1i1B4AAAAJ:LgRImbQfgY4C' },
+    { title: 'Chākṣu: A glaucoma specific fundus image database',
+      authors: 'JR Harish Kumar, Chandra Sekhar Seelamantula, JH Gagan, Yogish S Kamath, Neetha IR Kuzhuppilly, U Vivekanand, Preeti Gupta, Shilpa Patil',
+      venue: 'Scientific Data',
+      year: 2023, type: 'journal',
+      url: 'https://www.nature.com/articles/s41597-023-01943-4' },
+    { title: 'Deep-learning-based visualization and volumetric analysis of fluid regions in optical coherence tomography scans',
+      authors: 'Harishwar Reddy Kasireddy, Udaykanth Reddy Kallam, Sowmitri Karthikeya Siddhartha Mantrala, Hemanth Kongara, Anshul Shivhare, Jayesh Saita, Sharanya Vijay, Raghu Prasad, Rajiv Raman, Chandra Sekhar Seelamantula',
+      venue: 'Diagnostics',
+      year: 2023, type: 'journal',
+      url: 'https://www.mdpi.com/2075-4418/13/16/2659' },
+    { title: 'RaPiD: a Raspberry Pi-based optical fundoscope',
+      authors: 'JH Gagan, JR Harish Kumar, Chandra Sekhar Seelamantula, Chandrashekara S Adiga',
+      venue: 'ISSS Journal of Micro and Smart Systems',
+      year: 2022, type: 'journal',
+      url: 'https://link.springer.com/article/10.1007/s41683-022-00108-6' },
+    { title: 'Robust segmentation of optic disc and cup from fundus images using deep neural networks',
+      authors: 'Aniketh Manjunath, Subramanya Jois, Chandra Sekhar Seelamantula',
+      venue: 'arXiv preprint arXiv:2012.07128',
+      year: 2020, type: 'preprint',
+      url: 'https://arxiv.org/abs/2012.07128' },
+    { title: 'Automatic analysis of normative retinal oximetry images',
+      authors: 'JR Harish Kumar, Chandra Sekhar Seelamantula, Ashwin Mohan, Rohit Shetty, TJM Berendschot, Carroll AB Webers',
+      venue: 'PLOS One',
+      year: 2020, type: 'journal',
+      url: 'https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0231677' },
+    { title: 'Automatic classification of artery/vein from single wavelength fundus images',
+      authors: 'P Kevin Raj, Aniketh Manjunath, JR Harish Kumar, Chandra Sekhar Seelamantula',
+      venue: '2020 IEEE 17th International Symposium on Biomedical Imaging (ISBI)',
+      year: 2020, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/9098580/' },
+    { title: 'Automatic segmentation of optic disc using affine snakes in gradient vector field',
+      authors: 'Sidhartha Dey, Kapil Tahiliani, JR Harish Kumar, Aditya Kumar Pediredla, Chandra Sekhar Seelamantula',
+      venue: 'ICASSP 2019 — IEEE International Conference on Acoustics, Speech and Signal Processing',
+      year: 2019, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/8682408/' },
+    { title: 'Optic disc segmentation using cascaded multiresolution convolutional neural networks',
+      authors: 'Dhruv Mohan, JR Harish Kumar, Chandra Sekhar Seelamantula',
+      venue: '2019 IEEE International Conference on Image Processing (ICIP)',
+      year: 2019, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/8804267/' },
+    { title: 'Rim-to-disc ratio outperforms cup-to-disc ratio for glaucoma prescreening',
+      authors: 'JR Harish Kumar, Chandra Sekhar Seelamantula, Yogish Subraya Kamath, Rajani Jampala',
+      venue: 'Scientific Reports',
+      year: 2019, type: 'journal',
+      url: 'https://www.nature.com/articles/s41598-019-43385-2' },
+    { title: 'High-performance optic disc segmentation using convolutional neural networks',
+      authors: 'Dhruv Mohan, JR Harish Kumar, Chandra Sekhar Seelamantula',
+      venue: '2018 25th IEEE International Conference on Image Processing (ICIP)',
+      year: 2018, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/8451543/' },
+    { title: 'An unconstrained ellipse fitting technique and application to optic cup segmentation',
+      authors: 'Harsha Sridhar, JR Harish Kumar, Subramanya Jois, Chandra Sekhar Seelamantula',
+      venue: '2018 IEEE Global Conference on Signal and Information Processing (GlobalSIP)',
+      year: 2018, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/8646446/' },
+    { title: 'Automatic optic cup segmentation using Kāsa’s circle fitting technique',
+      authors: 'JR Harish Kumar, S Harsha, Yogish Kamath, Rajani Jampala, Chandra Sekhar Seelamantula',
+      venue: 'TENCON 2017 — IEEE Region 10 Conference',
+      year: 2017, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/8227830/' },
+    { title: 'Active discs for automated optic disc segmentation',
+      authors: 'JR Harish Kumar, Aditya Kumar Pediredla, Chandra Sekhar Seelamantula',
+      venue: '2015 IEEE Global Conference on Signal and Information Processing (GlobalSIP)',
+      year: 2015, type: 'conference',
+      url: 'https://ieeexplore.ieee.org/abstract/document/7418190/' }
+  ];
+
+  (function(){
+    var listEl = document.getElementById('pubList');
+    var barEl  = document.getElementById('pubBar');
+    if (!listEl || !barEl) return;
+
+    // Group by year (newest first)
+    var byYear = {};
+    PUBS.forEach(function(p){
+      if (!byYear[p.year]) byYear[p.year] = [];
+      byYear[p.year].push(p);
+    });
+    var years = Object.keys(byYear).sort(function(a,b){ return b - a; });
+
+    years.forEach(function(yr){
+      var yrEl = document.createElement('div');
+      yrEl.className = 'pub-yr';
+      yrEl.dataset.year = yr;
+      yrEl.textContent = yr;
+      listEl.appendChild(yrEl);
+      byYear[yr].forEach(function(p){
+        var card = document.createElement('div');
+        card.className = 'pub-card rv';
+        card.dataset.type = p.type;
+        card.innerHTML =
+          '<span class="pub-badge '+p.type+'">'+p.type+'</span>'+
+          '<div class="pub-body">'+
+            '<div class="pub-title">'+p.title+'</div>'+
+            '<div class="pub-authors">'+p.authors+'</div>'+
+            '<div class="pub-venue">'+p.venue+'</div>'+
+            '<a class="pub-btn" href="'+p.url+'" target="_blank" rel="noopener">Read Paper &#x2197;</a>'+
+          '</div>';
+        listEl.appendChild(card);
+      });
+    });
+
+    barEl.querySelectorAll('.pub-chip').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        barEl.querySelectorAll('.pub-chip').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        var filter = btn.dataset.filter;
+        listEl.querySelectorAll('.pub-card').forEach(function(c){
+          c.classList.toggle('hidden', filter !== 'all' && c.dataset.type !== filter);
+        });
+        listEl.querySelectorAll('.pub-yr').forEach(function(yr){
+          var next = yr.nextElementSibling;
+          var has = false;
+          while (next && next.classList.contains('pub-card')){
+            if (!next.classList.contains('hidden')) has = true;
+            next = next.nextElementSibling;
+          }
+          yr.classList.toggle('hidden', !has);
+        });
+      });
+    });
+  })();
 
   // ── REVEAL (IntersectionObserver with stagger inside each container) ──
   const reveal = function(){
