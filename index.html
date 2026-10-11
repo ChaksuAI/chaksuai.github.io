@@ -783,6 +783,21 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
 
   // ── PUBLICATIONS ──
   const PUBS = [
+    { title: 'Pixel-FLAIR: Leveraging Anatomical Segmentation for Region-Specific Supervision in Retinal Foundational Vision-Language Models',
+      authors: 'SR Alavala, K Akash, Chandra Sekhar Seelamantula',
+      venue: 'Emerging LLM/LMM Applications in Medical Imaging (ELAMI), MICCAI 2026 · Oral',
+      year: 2026, type: 'conference',
+      url: '' },
+    { title: 'Augmentation Strategy for DINO in Glaucoma Classification',
+      authors: 'AK Meena, Chandra Sekhar Seelamantula',
+      venue: 'Machine Learning in Medical Imaging (MLMI), MICCAI 2026 · Poster',
+      year: 2026, type: 'conference',
+      url: '' },
+    { title: 'RetinaLake: A Unified Data Lake Framework for Harmonizing Heterogeneous Retinal Datasets',
+      authors: 'Anirudh H A, Pramath G H, Chandra Sekhar Seelamantula',
+      venue: 'Applications of Medical AI (AMAI), MICCAI 2026 · Abstract, Poster',
+      year: 2026, type: 'conference',
+      url: 'assets/publications/50_RetinaLake_A_Unified_Data_L.pdf' },
     { title: 'Retinopathy Detection from Ultra-widefield Fundus Images',
       authors: 'Monalisa Bakshi, Chandra Sekhar Seelamantula',
       venue: 'Ultra-Widefield Fundus Imaging for Diabetic Retinopathy (UWF4DR), MICCAI 2024',
@@ -884,7 +899,7 @@ footer{background:var(--bg-dark);color:oklch(80% 0.01 255);padding:22px clamp(20
             '<div class="pub-title">'+p.title+'</div>'+
             '<div class="pub-authors">'+p.authors+'</div>'+
             '<div class="pub-venue">'+p.venue+'</div>'+
-            '<a class="pub-btn" href="'+p.url+'" target="_blank" rel="noopener">Read Paper &#x2197;</a>'+
+            (p.url ? '<a class="pub-btn" href="'+p.url+'" target="_blank" rel="noopener">Read Paper &#x2197;</a>' : '')+
           '</div>';
         listEl.appendChild(card);
       });
